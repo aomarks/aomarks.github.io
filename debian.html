@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Debian</title>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<style>
+body {
+  max-width: 800px;
+}
+em {
+ outline: 2px solid gold;
+ font-style: normal;
+}
+code {
+  background-color: whitesmoke;
+  padding: 0 3px;
+}
+pre {
+  overflow-y: auto;
+  line-height: 20px;
+}
+.prompt::before {
+  content: '$ ';
+  color: #555;
+}
+.codebox {
+  border: 1px solid silver;
+  margin: 0 0 0 20px;
+}
+pre.codebox, .codebox > pre {
+  padding: 5px 10px;
+}
+.codebox > pre {
+  margin: 0;
+}
+.filename {
+  border-bottom: 1px dashed silver;
+  border-right: 1px dashed silver;
+  display: inline-block;
+  border-radius: 0 0 10px 0;
+  background-color: whitesmoke;
+}
+</style>
+</head>
+
+<body>
+
+<p>How I configured my Debian linux desktop computer.</p>
+<p>Latest update: January 16, 2020</p>
+
+<h2>Contents</h2>
+
+<ol>
+  <li><a href="#x">X</a></li>
+  <li><a href="#i3">i3 window manager</a></li>
+  <li><a href="#compton">Compton compositor</a></li>
+  <li><a href="#highrefresh">High refresh rate</a></li>
+  <li><a href="#power">Power commands</a></li>
+  <li><a href="#chrome">Chrome</a></li>
+  <li><a href="#vscode">VSCode</a></li>
+  <li><a href="#nodejs">Node.js</a></li>
+  <li><a href="#update">Staying updated</a></li>
+</ol>
+
+<h2><a id="x" href="#x">X</a></h2>
+
+<p>Install the <code>xorg</code> package and run <code>startx</code>. With the right drivers, it should just work without any configuration.</p>
+
+<p>Since I have an Nvidia GPU, I installed the <code>nvidia-driver</code> package to get the closed-source drivers with hardware acceleration. To install this package, you must first add the <code>non-free</code> component to your APT <code>sources.list</code>:</p>
+
+<div class="codebox">
+<pre class="prompt">sudo apt edit-sources</pre>
+<pre class="output">
+deb http://deb.debian.org/debian/ buster main contrib <em>non-free</em>
+deb-src http://deb.debian.org/debian/ buster main contrib <em>non-free</em>
+
+deb http://security.debian.org/debian-security buster/updates main contrib <em>non-free</em>
+deb-src http://security.debian.org/debian-security buster/updates main contrib <em>non-free</em>
+</pre>
+</div>
+
+<p>I like my CAPSLOCK key to act like ESCAPE:</p>
+<div class="codebox">
+<pre class="prompt">echo "setxkbmap -option caps:escape" >> ~/.xsessionrc</pre>
+<pre class="prompt">source ~/.xsessionrc</pre>
+</div>
+
+<p>In xterm, typing ALT inserted a character instead of the META modifier:</p>
+<div class="codebox">
+<pre class="prompt">echo "xterm*metaSendsEscape: true" >> ~/.Xresources</pre>
+<pre class="prompt">xrdb -l ~/.Xresources</pre>
+</div>
+
+<p>My mouse cursor was too big:</p>
+<div class="codebox">
+<pre class="prompt">echo "Xcursor.size: 16" >> ~/.Xresources</pre>
+<pre class="prompt">xrdb -l ~/.Xresources</pre>
+</div>
+
+<h2><a id="i3" href="#i3">i3 window manager</a></h2>
+
+<p>I use the i3 tiling window manager (<a href="https://i3wm.org/">i3wm.org</a>) provided by the <code>i3</code> package.</p>
+
+<p>If i3 is the only window manager you install, Debian will automatically launch it with X, because it will already be configured as the <code>x-window-manager</code> <i>alternative</i> (see the <a href="https://wiki.debian.org/DebianAlternatives">Debian Wiki</a>). Otherwise, you can run <code>sudo update-alternatives --config x-window-manager</code> to pick it manually.</p>
+
+<h2><a id="compton" href="#compton">Compton compositor</a></h2>
+
+<p>Unlike some other window managers (like GNOME and KDE), i3 does not include a compositor (<a href="https://en.wikipedia.org/wiki/Compositing_window_manager">Wikipedia</a>). Among other things, a compositor can prevent tearing when scrolling text or watching videos in programs like Chrome.</p>
+
+<p>Install the <code>compton</code> package (<a href="https://github.com/chjj/compton">github.com/chjj/compton</a>) for a standalone compositor that works well with i3. If you run <code>compton</code> directly it will immediately start compositing, and if you CTRL-C it will stop, so it's easy to experiment with the flags. The only flag I seemed to need was <code>--backend=glx</code>. The <code>--vsync</code> flag didn't seem to make any difference, maybe because Nvidia G-Sync was already providing that functionality.</p>
+
+<pre class="codebox prompt">compton --backend=glx</pre>
+
+<p>Then configure i3 to launch it automatically:</p>
+
+<pre class="codebox prompt">echo "exec compton --backend=glx" >> ~/.config/i3/config</pre>
+
+<h2><a id="highrefresh" href="#highrefresh">High refresh rate</a></h2>
+
+<p>My monitor supports refresh rates up to 165Hz, but X was only running at 60Hz by default. The difference above 60Hz is subtle, but I can definitely tell the difference when I move the mouse cursor.</p>
+
+<p>Use <code>xrandr</code> to see the current resolution and refresh rate. The <code>*</code> symbol to the right of the refresh rate indicates the current mode, and the <code>+</code> symbol indicates the "preferred" (default) mode:</p>
+
+<div class="codebox">
+<pre class="prompt">xrandr</pre>
+<pre class="output">
+Screen 0: minimum 8 x 8, current 2560 x 1440, maximum 32767 x 3276
+DP-1 disconnected (normal left inverted right x axis y axis)
+HDMI-0 disconnected (normal left inverted right x axis y axis)
+DP-2 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 598mm x 336mm
+   2560x1440     <em>59.95*+</em> 165.00  144.00   120.00    99.95    84.98    23.97  
+   1024x768      60.00  
+   800x600       60.32  
+   640x480       59.94  
+DP-3 disconnected (normal left inverted right x axis y axis)
+DP-4 disconnected (normal left inverted right x axis y axis)
+DP-5 disconnected (normal left inverted right x axis y axis)
+USB-C-0 disconnected (normal left inverted right x axis y axis)
+</pre>
+</div>
+
+<p>You can change the mode live with <code>xrandr</code>, and to make it persistent you can put that command in your <code>~/.xprofile</code> file (which runs every time X starts).</p>
+
+<div class="codebox">
+<pre class="prompt">xrandr --output DP-2 -r 165 --mode 2560x1440</pre>
+<pre class="prompt">xrandr</pre>
+<pre class="output">
+DP-2 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 598mm x 336mm
+    2560x1440     59.95 + <em>165.00*</em>  144.00   120.00    99.95    84.98    23.97  
+    1024x768      60.00  
+    800x600       60.32  
+    640x480       59.94  
+</pre>
+<pre class="prompt">echo "xrandr --output DP-2 -r 165 --mode 2560x1440" >> ~/.xprofile</pre>
+</div>
+
+<h2><a id="power" href="#power">Power commands</a></h2>
+
+<p>All of the <code>systemctl</code> power-related commands worked with no configuration: <code>poweroff</code>, <code>reboot</code>, <code>hibernate</code>, and <code>suspend</code>.</p>
+
+<p>However, it can be annoying that these commands require typing your password. (Note for a server you <i>do</i> want to require a password).</p>
+
+<p>One option is to create a <code>sudoers</code> file that allows you to run those specific commands without typing your password (though you will still use <code>sudo</code>). Always edit sudoers files using <code>visudo</code> (provided by the synonymous package), because it helps prevent you from entirely breaking your sudo access by checking that your syntax is correct before writing the file.</p>
+
+<div class="codebox">
+<pre class="prompt">sudo visudo /etc/sudoers.d/power</pre>
+<pre class="filecontents">
+<em>yourusername</em> ALL = \
+  NOPASSWD:/usr/bin/systemctl poweroff,\
+  NOPASSWD:/usr/bin/systemctl reboot,\
+  NOPASSWD:/usr/bin/systemctl hibernate,\
+  NOPASSWD:/usr/bin/systemctl suspend
+</pre>
+</div>
+
+<p>You probably don't want to put much else in your sudoers file, since it could allow a malicious program running as your user to execute any of these commands without your permission or knowledge, plus typing your password makes it harder to accidentally to do bad things yourself. The best explanation of the sudoers file syntax I've found is <a href="http://toroid.org/sudoers-syntax">toroid.org/sudoers-syntax</a>.</p>
+
+<h2><a id="chrome" href="#chrome">Chrome</a></h2>
+<p>Google maintains an official APT repository for Chrome. Chrome is not in the official Debian APT repositories (though Chromium is).</p>
+<p>Download the <code>.deb</code> package from <a href="https://www.google.com/chrome/">google.com/chrome</a>. This will both install Chrome, and configure your APT sources and GPG keys to receive updates when you apt update/upgrade.</p>
+
+<h2><a id="vscode" href="#vscode">VSCode</a></h2>
+<p>Microsoft maintains an official APT repository for VSCode. VSCode is not in the official Debian APT repositories.</p>
+<p></p>Download the <code>.deb</code> package from <a href="https://code.visualstudio.com/download">code.visualstudio.com/download</a>. This will both install VSCode, and configure your APT sources and GPG keys to receive updates when you apt update/upgrade.</pre>
+
+<h2><a id="nodejs" href="#nodejs">Node.js</a></h2>
+
+<p>The version of Node.js provided by the <code>nodejs</code> package in the official Debian APT repositories is a Long Term Support (LTS) version. This is usually fine, but I like to have the latest version because I sometimes experiment with new features. See <a href="https://nodejs.org/en/about/releases/">nodejs.org/en/about/releases</a> for the release schedule.</p>
+
+<p>I get the latest version of Node.js by downloading the <code>.tar.xz</code> binary release archive from <a href="https://nodejs.org/dist/latest/">nodejs.org/dist/latest</a>, unpacking it to <code>$HOME/node</code>, and adding <code>$HOME/node/bin</code> to my <code>$PATH</code>.</p>
+
+<p>To check if there's a new version to download, I use this script:</p>
+
+<div class="codebox">
+<pre class="filename">~/bin/check-node-version.sh</pre>
+<pre class="filecontents">
+#!/usr/bin/bash
+
+set -e
+
+NODE_INSTALLED=$(node --version)
+
+NODE_LATEST=$(curl --silent --show-error --fail \
+  https://nodejs.org/dist/latest/SHASUMS256.txt \
+  | grep linux-x64.tar.xz | grep -Eo "v[0-9]+\.[0-9]+\.[0-9]+")
+
+if [[ "$NODE_INSTALLED" == "$NODE_LATEST" ]]
+then echo "Node.js is current ($NODE_INSTALLED)"
+else echo "Node.js is outdated ($NODE_INSTALLED installed, $NODE_LATEST latest)"; exit 1
+fi
+</pre>
+</div>
+
+<p>Note that a company called NodeSource maintains Debian APT repositories for the latest versions, as mentioned at <a href="https://nodejs.org/en/download/package-manager/">nodejs.org/en/download/package-manager</a>. There's also a program called NVM (<a href="https://github.com/nvm-sh/nvm">github.com/nvm-sh/nvm</a>) which automatically downloads Node.js versions for you. Since neither of these options are managed by the Node.js maintainers, though, I prefer to manage installation myself.</p>
+
+<h2><a id="update" href="#update">Staying updated</a></h2>
+
+<p>I use this script to check for any available updates to system APT packages, Node.js, and globally installed npm packages.</p>
+
+<div class="codebox">
+<pre class="filename">~/bin/check-updates.sh</pre>
+<pre class="filecontents">
+#!/usr/bin/bash
+
+sudo apt update | tee /dev/stderr | grep -q "All packages are up to date"
+APT_CODE=$?
+apt list --upgradable
+echo
+
+check-node-version.sh
+NODE_CODE=$?
+echo
+
+npm --global outdated
+NPM_CODE=$?
+echo
+
+RED="\u001b[31m"
+GREEN="\u001b[32m"
+RESET="\u001b[0m"
+
+EXITCODE=0
+
+if [[ $APT_CODE == 0 ]]
+then echo -e "[${GREEN}OK${RESET}] APT"
+else echo -e "[${RED}!!${RESET}] APT (sudo apt upgrade)"; EXITCODE=1
+fi
+
+if [[ $NODE_CODE == 0 ]]
+then echo -e "[${GREEN}OK${RESET}] Node.js"
+else echo -e "[${RED}!!${RESET}] Node.js (https://nodejs.org/dist/latest/)"; EXITCODE=1
+fi
+
+if [[ $NPM_CODE == 0 ]]
+then echo -e "[${GREEN}OK${RESET}] NPM"
+else echo -e "[${RED}!!${RESET}] NPM (npm --global update)"; EXITCODE=1
+fi
+
+exit $EXITCODE
+</pre>
+</div>
