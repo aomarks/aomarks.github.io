@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>aomarks / svg viewbox</title>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<style>
+[hidden] {
+  display: none !important;
+}
+table {
+  font-family: monospace;
+}
+#svgs {
+  display: flex;
+  flex-wrap: wrap;
+}
+#svgs > * {
+  margin: 0 20px 20px 0;
+}
+#map {
+  border: 1px solid black;
+}
+#viewport {
+  border: 1px solid blue;
+}
+#inputs {
+  display: flex;
+  flex-wrap: wrap;
+}
+#inputs > * {
+  margin: 0 20px 20px 0;
+}
+#inputs td:first-child {
+  text-align: right;
+}
+#inputs th {
+  text-align: left;
+}
+#viewportHtml {
+  margin-bottom: 30px;
+  font-family: monospace;
+}
+.dashedRed {
+  border: 1px dashed red;
+  padding: 1px 2px;
+}
+.solidBlue {
+  border: 1px solid blue;
+  padding: 1px 2px;
+}
+</style>
+</head>
+
+<body>
+
+<a href="/">index</a>
+
+<p>An interactive widget to help explain how the <code>viewBox</code> and <code>preserveAspectRatio</code> parameters control which region of an SVG image is rendered by the browser.</code>
+<p>The <span class="dashedRed">dashed red</span> box is the view box.</p>
+<p>The <span class="solidBlue">solid blue</span> box is what's rendered.</p>
+
+<div id="inputs">
+  <table>
+    <tr><th colspan="3">viewBox</th></tr>
+    <tr id="vbEnabled">
+      <td>enabled</td>
+      <td colspan="2"><input type="checkbox" checked></input></td>
+    </tr>
+    <tr id="vbx">
+      <td>min-x</td>
+      <td><input type="range" min="-300" max="600" value="270"></input></td>
+      <td class="value"></td>
+    </tr>
+    <tr id="vby">
+      <td>min-y</td>
+      <td><input type="range" min="-300" max="600" value="70"></input></td>
+      <td class="value"></td>
+    </tr>
+    <tr id="vbw">
+      <td>width</td>
+      <td><input type="range" min="1" max="600" value="90"></input></td>
+      <td class="value"></td>
+    </tr>
+    <tr id="vbh">
+      <td>height</td>
+      <td><input type="range" min="1" max="600" value="50"></input></td>
+      <td class="value"></td>
+    </tr>
+  </table>
+
+  <table>
+    <tr><th colspan="2">preserveAspectRatio</th></tr>
+    <tr id="parNone">
+      <td>none</td>
+      <td><input type="checkbox"></input></td>
+    </tr>
+    <tr id="parax">
+      <td>align X</td>
+      <td>
+        <select>
+          <option>Min</option>
+          <option selected>Mid</option>
+          <option>Max</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="paray">
+      <td>align Y</td>
+      <td>
+        <select>
+          <option>Min</option>
+          <option selected>Mid</option>
+          <option>Max</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="parms">
+      <td>meet/slice</td>
+      <td>
+        <select>
+          <option selected>meet</option>
+          <option>slice</option>
+        </select>
+      </td>
+    </tr>
+  </table>
+
+  <table>
+    <tr><th colspan="3">svg size</th></tr>
+    <tr id="svgw">
+      <td>width</td>
+      <td><input type="range" min="1" max="1000" value="200"></input></td>
+      <td class="value"></td>
+    </tr>
+    <tr id="svgh">
+      <td>height</td>
+      <td><input type="range" min="1" max="1000" value="300"></input></td>
+      <td class="value"></td>
+    </tr>
+  </table>
+</div>
+
+<p id="viewportHtml"></p>
+
+<div id="loading">loading svg ...</div>
+
+<embed id="orionSvg" type="image/svg+xml" width="0" height="0"
+       src="Orion_spacecraft.svg"></embed>
+
+<div id="svgs" hidden>
+  <svg id="map" width="400" height="300">
+    <svg id="mapViewport" x="50" y="50" width="400" height="200">
+      <rect x="0" y="0" width="100%" height="100%"
+            fill="transparent" stroke="blue"></rect>
+    </svg>
+
+    <svg id="mapViewbox" x="100" y="100" width="300" height="70">
+      <rect x="0" y="0" width="100%" height="100%"
+            fill="transparent" stroke="red" stroke-dasharray="3"></rect>
+    </svg>
+  </svg>
+
+  <svg id="viewport" width="200" height="300"></svg>
+</div>
+
+<script type="module">
+  const $ = document.querySelector.bind(document);
+
+  const viewport = $('#viewport');
+  const viewportHtml = $('#viewportHtml');
+  const map = $('#map');
+  const orion = $('#orionSvg');
+
+  const attachSvg = () => {
+    const svg = orion.getSVGDocument().firstChild;
+    orion.parentNode.removeChild(orion);
+    svg.setAttribute('width', 400);
+    svg.setAttribute('height', 300);
+    viewport.prepend(svg);
+    map.prepend(svg.cloneNode(true));
+    $('#svgs').removeAttribute('hidden');
+    $('#loading').setAttribute('hidden', '');
+  };
+
+  if (orion.getSVGDocument()) {
+    attachSvg();
+  } else {
+    orion.addEventListener('load', () => attachSvg());
+  }
+
+  const mapViewbox = $('#mapViewbox');
+  const mapViewport = $('#mapViewport');
+  const vbEnabledCheckbox = $('#vbEnabled input');
+  const vbxInput = $('#vbx input');
+  const vbyInput = $('#vby input');
+  const vbwInput = $('#vbw input');
+  const vbhInput = $('#vbh input');
+  const svgwInput = $('#svgw input');
+  const svghInput = $('#svgh input');
+  const vbxValue = $('#vbx .value');
+  const vbyValue = $('#vby .value');
+  const vbwValue = $('#vbw .value');
+  const vbhValue = $('#vbh .value');
+  const svgwValue = $('#svgw .value');
+  const svghValue = $('#svgh .value');
+  const parNoneCheckbox = $('#parNone input');
+  const paraxSelect = $('#parax select');
+  const paraySelect = $('#paray select');
+  const parmsSelect = $('#parms select');
+
+  const inputs = [
+    vbEnabledCheckbox,
+    vbxInput,
+    vbyInput,
+    vbwInput,
+    vbhInput,
+    parNoneCheckbox,
+    paraxSelect,
+    paraySelect,
+    parmsSelect,
+    svgwInput,
+    svghInput,
+  ];
+
+  const onChange = () => {
+    const vbEnabled = vbEnabledCheckbox.checked;
+    const vbx = Number(vbxInput.value);
+    const vby = Number(vbyInput.value);
+    const vbw = Number(vbwInput.value);
+    const vbh = Number(vbhInput.value);
+    vbxValue.textContent = vbx;
+    vbyValue.textContent = vby;
+    vbwValue.textContent = vbw;
+    vbhValue.textContent = vbh;
+    if (vbEnabled) {
+      viewport.setAttribute('viewBox', `${vbx} ${vby} ${vbw} ${vbh}`);
+      mapViewbox.setAttribute('x', vbx);
+      mapViewbox.setAttribute('y', vby);
+      mapViewbox.setAttribute('width', vbw);
+      mapViewbox.setAttribute('height', vbh);
+      mapViewbox.setAttribute('visibility', 'visibile');
+    } else {
+      viewport.removeAttribute('viewBox');
+      mapViewbox.setAttribute('visibility', 'hidden');
+    }
+    vbxInput.disabled = !vbEnabled;
+    vbyInput.disabled = !vbEnabled;
+    vbwInput.disabled = !vbEnabled;
+    vbhInput.disabled = !vbEnabled;
+
+    const parNone = parNoneCheckbox.checked;
+    const parax = paraxSelect.selectedOptions[0].textContent;
+    const paray = paraySelect.selectedOptions[0].textContent;
+    const parms = parmsSelect.selectedOptions[0].textContent;
+    parNoneCheckbox.disabled = !vbEnabled;
+    paraxSelect.disabled = !vbEnabled || parNone;
+    paraySelect.disabled = !vbEnabled || parNone;
+    parmsSelect.disabled = !vbEnabled || parNone;
+    if (vbEnabled) {
+      const par = parNone ? 'none' : `x${parax}Y${paray} ${parms}`;
+      viewport.setAttribute('preserveAspectRatio', par);
+    } else {
+      viewport.removeAttribute('preserveAspectRatio');
+    }
+
+    const svgw = Number(svgwInput.value);
+    const svgh = Number(svghInput.value);
+    svgwValue.textContent = svgw;
+    svghValue.textContent = svgh;
+    const svgRatio = svgw/svgh;
+    const vbRatio = vbw/vbh;
+    let vpx, vpy, vpw, vph;
+
+    if (!vbEnabled) {
+      vpx = 0;
+      vpy = 0;
+      vpw = svgw;
+      vph = svgh;
+    } else if (parNone) {
+      vpx = vbx;
+      vpy = vby;
+      vpw = vbw;
+      vph = vbh;
+    } else if ((parms === 'meet' && vbRatio < svgRatio) ||
+      (parms === 'slice' && vbRatio >= svgRatio)) {
+      vpy = vby;
+      vph = vbh;
+      vpw = (vbh/svgh) * svgw;
+      if (parax === 'Min') {
+        vpx = vbx;
+      } else if (parax === 'Mid') {
+        vpx = vbx + (vbw/2) - (vpw/2);
+      } else if (parax === 'Max') {
+        vpx = vbx + vbw - vpw;
+      }
+    } else {
+      vpx = vbx;
+      vpw = vbw;
+      vph = (vbw/svgw) * svgh;
+      if (paray === 'Min') {
+        vpy = vby;
+      } else if (paray === 'Mid') {
+        vpy = vby + (vbh/2) - (vph/2);
+      } else if (paray === 'Max') {
+        vpy = vby + vbh - vph;
+      }
+    }
+
+    mapViewport.setAttribute('x', vpx);
+    mapViewport.setAttribute('y', vpy);
+    mapViewport.setAttribute('width', vpw);
+    mapViewport.setAttribute('height', vph);
+
+    viewport.setAttribute('width', svgw);
+    viewport.setAttribute('height', svgh);
+
+    let html = '<svg';
+    for (const attr of viewport.attributes) {
+      if (attr.name === 'id') {
+        continue;
+      }
+      html += ` ${attr.name}="${attr.value}"`;
+    }
+    html += '>';
+    viewportHtml.textContent = html;
+  }
+
+  inputs.map((input) => input.addEventListener('input', onChange));
+
+  onChange();
+</script>
+
+</body>
