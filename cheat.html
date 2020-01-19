@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>aomarks / snippets</title>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<style>
+[hidden] {
+  display: none;
+}
+.prompt::before {
+  content: "$ ";
+}
+#filter {
+ position: fixed;
+ right: 10px;
+ top: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<a href="/">index</a>
+
+<p>Latest update: January 18, 2020</p>
+
+<h3><a id="urxvt" href="#urxvt">urxvt</a></h3>
+<ol>
+
+<li>
+<p>Copy to CLIPBOARD selection:</p>
+<code>ALT+SHIFT+C</code>
+</li>
+
+<li>
+<p>Paste from CLIPBOARD selection:</p>
+<code>ALT+SHIFT+V</code>
+</li>
+
+<li>
+<p>Rectangular selection:</p>
+<code>ALT+SELECT</code>
+</li>
+
+<li>
+<p>Search scrollback:</p>
+<code>ALT+S</code>
+</li>
+
+</ol>
+
+<h3><a id="debian" href="#debian">Debian</a></h3>
+<ol>
+
+<li>
+<p>List manually installed Debian packages:</p>
+<code><span class="prompt"></span>sudo grep -oP "Unpacking \K[^: ]+" /var/log/installer/syslog | sort -u | comm -13 /dev/stdin &lt;(apt-mark showmanual | sort)</code>
+</li>
+
+</ol>
+
+<h3><a id="git" href="#git">Git</a></h3>
+<ol>
+
+<li>
+<p>Reset the date of the last commit:</p>
+<code><span class="prompt"></span>git commit --amend --date "$(date -R)"</code>
+</li>
+
+</ol>
+
+<h3><a id="macOS" href="#macOS">macOS</a></h3>
+<ol>
+
+<li>
+<p>Keyboard symbols:</p>
+<table>
+  <tr><td>⌘</td> <td>Command</td></tr>
+  <tr><td>⌥</td> <td>Option</td></tr>
+  <tr><td>⌃</td> <td>Control</td></tr>
+  <tr><td>⇧</td> <td>Shift</td></tr>
+  <tr><td>⇪</td> <td>Caps Lock</td></tr>
+</table>
+</li>
+
+</ol>
+
+<input id="filter" placeholder="filter"></input>
+
+<script>
+const show = (node) => node.removeAttribute('hidden');
+const hide = (node) => node.setAttribute('hidden', '');
+
+const filter = (term) => {
+  term = term.trim().toLowerCase();
+  const walker =
+      document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
+  let heading;
+  let headingMatches = true;
+  let anyItemsMatched = false;
+  while(walker.nextNode()) {
+    const node = walker.currentNode;
+    if (node instanceof HTMLHeadingElement) {
+      if (heading !== undefined) {
+        if (anyItemsMatched === true) {
+          show(heading);
+        } else {
+          hide(heading)
+        }
+      }
+      heading = node;
+      anyItemsMatched = false;
+      if (node.textContent.toLowerCase().includes(term)) {
+        headingMatches = true;
+      } else {
+        headingMatches = false;
+      }
+    } else if (node instanceof HTMLLIElement) {
+      if (node.textContent.toLowerCase().includes(term)) {
+        show(node);
+        anyItemsMatched = true;
+      } else if (headingMatches === true) {
+        show(node);
+      } else {
+        hide(node);
+      }
+    }
+  }
+  if (heading !== undefined) {
+    if (headingMatches === true || anyItemsMatched === true) {
+      show(heading);
+    } else {
+      hide(heading);
+    }
+  }
+};
+
+const input = document.querySelector('#filter');
+const url = new URL(document.URL);
+const params = url.searchParams;
+const term = params.get('q');
+
+if (term) {
+  input.value = term;
+  filter(term);
+}
+
+input.addEventListener('input', () => {
+  filter(input.value);
+});
+
+document.addEventListener('keypress', () => {
+  input.focus();
+});
+
+input.focus();
+</script>
+
+</body>
+</html>
