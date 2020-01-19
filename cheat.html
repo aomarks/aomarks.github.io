@@ -20,30 +20,29 @@
 </head>
 
 <body>
-
 <a href="/">index</a>
 
-<p>Latest update: January 18, 2020</p>
+<p>Latest update: January 19, 2020</p>
 
 <h3><a id="urxvt" href="#urxvt">urxvt</a></h3>
 <ol>
 
-<li>
+<li item>
 <p>Copy to CLIPBOARD selection:</p>
 <code>ALT+SHIFT+C</code>
 </li>
 
-<li>
+<li item>
 <p>Paste from CLIPBOARD selection:</p>
 <code>ALT+SHIFT+V</code>
 </li>
 
-<li>
+<li item>
 <p>Rectangular selection:</p>
 <code>ALT+SELECT</code>
 </li>
 
-<li>
+<li item>
 <p>Search scrollback:</p>
 <code>ALT+S</code>
 </li>
@@ -53,7 +52,7 @@
 <h3><a id="debian" href="#debian">Debian</a></h3>
 <ol>
 
-<li>
+<li item>
 <p>List manually installed Debian packages:</p>
 <code><span class="prompt"></span>sudo grep -oP "Unpacking \K[^: ]+" /var/log/installer/syslog | sort -u | comm -13 /dev/stdin &lt;(apt-mark showmanual | sort)</code>
 </li>
@@ -63,7 +62,7 @@
 <h3><a id="git" href="#git">Git</a></h3>
 <ol>
 
-<li>
+<li item>
 <p>Reset the date of the last commit:</p>
 <code><span class="prompt"></span>git commit --amend --date "$(date -R)"</code>
 </li>
@@ -71,67 +70,94 @@
 </ol>
 
 <h3><a id="macOS" href="#macOS">macOS</a></h3>
-<ol>
 
-<li>
-<p>Keyboard symbols:</p>
+<h4>Keyboard symbols</h4>
 <table>
-  <tr><td>⌘</td> <td>Command</td></tr>
-  <tr><td>⌥</td> <td>Option</td></tr>
-  <tr><td>⌃</td> <td>Control</td></tr>
-  <tr><td>⇧</td> <td>Shift</td></tr>
-  <tr><td>⇪</td> <td>Caps Lock</td></tr>
+  <tr item><td>⌘</td> <td>Command</td></tr>
+  <tr item><td>⌥</td> <td>Option</td></tr>
+  <tr item><td>⌃</td> <td>Control</td></tr>
+  <tr item><td>⇧</td> <td>Shift</td></tr>
+  <tr item><td>⇪</td> <td>Caps Lock</td></tr>
 </table>
-</li>
 
-</ol>
+<h3><a id="vscode" href="#vscode">VSCode</a></h3>
+
+<h4>Keyboard shortcuts</h4>
+<table>
+  <tr item><td>Alt + ↑</td><td>Move line up</td></tr>
+  <tr item><td>Alt + ↓</td><td>Move line down</td></tr>
+  <tr item><td>Ctrl + Alt + Shift + ↓</td><td>Duplicate line down</td></tr>
+  <tr item><td>Ctrl + /</td><td>Toggle line comment</td></tr>
+  <tr item><td>Alt + Z</td><td>Toggle word wrap</td></tr>
+</table>
 
 <input id="filter" placeholder="filter"></input>
 
 <script>
 const show = (node) => node.removeAttribute('hidden');
 const hide = (node) => node.setAttribute('hidden', '');
+const headingLevel = (heading) => Number(heading.localName[1]);
+const normalize = (text) => text.trim().toLowerCase();
 
 const filter = (term) => {
-  term = term.trim().toLowerCase();
+  normalized = normalize(term);
+  // TODO: Tokenize and also match headings
+  const matches = (text) => normalize(text).includes(normalized);
+
   const walker =
       document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
-  let heading;
-  let headingMatches = true;
-  let anyItemsMatched = false;
+  const headings = [];
   while(walker.nextNode()) {
     const node = walker.currentNode;
     if (node instanceof HTMLHeadingElement) {
-      if (heading !== undefined) {
-        if (anyItemsMatched === true) {
-          show(heading);
-        } else {
-          hide(heading)
+      // Update the headings stack.
+      const level = headingLevel(node);
+      for (let i = headings.length - 1;
+           i >= 0 && level <= headingLevel(headings[i]); i--) {
+        headings.pop();
+      }
+
+      // A heading is visible if:
+      //   (1) it matches
+      //   (2) any of its ancestor headings matched
+      //   (3) any of its descendant headings matched
+      //   (4) any of its descendant items matched
+      if (matches(node.innerText) === true) {
+        show(node); // (1)
+        for (let ancestor of headings) {
+          show(ancestor); // (3)
+        }
+      } else {
+        // TODO: Make this more efficient.
+        hide(node);
+        for (let ancestor of headings) {
+          if (matches(ancestor.innerText)) {
+            show(node) // (2)
+            break;
+          }
         }
       }
-      heading = node;
-      anyItemsMatched = false;
-      if (node.textContent.toLowerCase().includes(term)) {
-        headingMatches = true;
+
+      headings.push(node);
+    } else if (node.hasAttribute('item')) {
+      // An item is visible if:
+      //   (5) it matches
+      //   (6) any of its ancestor headings matched
+      if (matches(node.innerText) === true) {
+        show(node); // (5)
+        for (let ancestor of headings) {
+          show(ancestor); // (4)
+        }
       } else {
-        headingMatches = false;
-      }
-    } else if (node instanceof HTMLLIElement) {
-      if (node.textContent.toLowerCase().includes(term)) {
-        show(node);
-        anyItemsMatched = true;
-      } else if (headingMatches === true) {
-        show(node);
-      } else {
+        // TODO: Make this more efficient.
         hide(node);
+        for (let ancestor of headings) {
+          if (matches(ancestor.innerText)) {
+            show(node); // (6)
+            break;
+          }
+        }
       }
-    }
-  }
-  if (heading !== undefined) {
-    if (headingMatches === true || anyItemsMatched === true) {
-      show(heading);
-    } else {
-      hide(heading);
     }
   }
 };
