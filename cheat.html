@@ -98,65 +98,88 @@ const show = (node) => node.removeAttribute('hidden');
 const hide = (node) => node.setAttribute('hidden', '');
 const headingLevel = (heading) => Number(heading.localName[1]);
 const normalize = (text) => text.trim().toLowerCase();
+const tokenize = (text) => text.split(/\W+/).filter((token) => token !== '');
 
 const filter = (term) => {
-  normalized = normalize(term);
-  // TODO: Tokenize and also match headings
-  const matches = (text) => normalize(text).includes(normalized);
+  const tokens = tokenize(normalize(term));
+  const matchStrings = [];
+
+  const matches = () => {
+    for (const token of tokens) {
+      let found = false;
+      for (const str of matchStrings) {
+        if (str.includes(token)) {
+          found = true;
+          break;
+        }
+      }
+      if (found === false) {
+        return false;
+      }
+    }
+    return true;
+  };
 
   const walker =
       document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT);
-  const headings = [];
+  const headingStack = [];
+  const matchStack = [];
+
+  // A heading is visible if any are true:
+  //
+  // (A1) Any of its ancestor headings already matched.
+  // (A2) The concatenation of its text and all ancestor heading text include
+  //      all tokens.
+  // (A3) Any of its descendant headings matched.
+  // (A4) Any of its descendant items matched.
+  //
+  // An item is visible if any are true:
+  //
+  // (B1) Any of its ancestor headings already matched.
+  // (B2) The concatenation of its text and all ancestor heading text include
+  //      all tokens.
   while(walker.nextNode()) {
     const node = walker.currentNode;
     if (node instanceof HTMLHeadingElement) {
-      // Update the headings stack.
       const level = headingLevel(node);
-      for (let i = headings.length - 1;
-           i >= 0 && level <= headingLevel(headings[i]); i--) {
-        headings.pop();
+      for (let i = headingStack.length - 1;
+           i >= 0 && level <= headingLevel(headingStack[i]); i--) {
+        headingStack.pop();
+        matchStrings.pop();
+        matchStack.pop();
       }
+      matchStrings.push(normalize(node.textContent));
 
-      // A heading is visible if:
-      //   (1) it matches
-      //   (2) any of its ancestor headings matched
-      //   (3) any of its descendant headings matched
-      //   (4) any of its descendant items matched
-      if (matches(node.innerText) === true) {
-        show(node); // (1)
-        for (let ancestor of headings) {
-          show(ancestor); // (3)
+      if (matchStack[matchStack.length - 1] === true) {
+        show(node); // (A1)
+        matchStack.push(true);
+      } else if (matches() === true) {
+        show(node); // (A2)
+        matchStack.push(true);
+        for (let ancestor of headingStack) {
+          show(ancestor); // (A3)
         }
       } else {
-        // TODO: Make this more efficient.
         hide(node);
-        for (let ancestor of headings) {
-          if (matches(ancestor.innerText)) {
-            show(node) // (2)
-            break;
-          }
-        }
+        matchStack.push(false);
       }
 
-      headings.push(node);
+      headingStack.push(node);
+
     } else if (node.hasAttribute('item')) {
-      // An item is visible if:
-      //   (5) it matches
-      //   (6) any of its ancestor headings matched
-      if (matches(node.innerText) === true) {
-        show(node); // (5)
-        for (let ancestor of headings) {
-          show(ancestor); // (4)
-        }
+      if (matchStack[matchStack.length - 1] === true) {
+        show(node); // (B1)
       } else {
-        // TODO: Make this more efficient.
-        hide(node);
-        for (let ancestor of headings) {
-          if (matches(ancestor.innerText)) {
-            show(node); // (6)
-            break;
+        matchStrings.push(normalize(node.textContent));
+        if (matches() === true) {
+          show(node); // (B2)
+          for (let ancestor of headingStack) {
+            show(ancestor); // (A4)
           }
+        } else {
+          hide(node);
         }
+        matchStrings.pop();
       }
     }
   }
