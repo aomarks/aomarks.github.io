@@ -82,6 +82,11 @@ th > h4 {
 <code><span class="prompt"></span>git commit --amend --date "$(date -R)"</code>
 </li>
 
+<li item>
+<p>Diff between the current branch and the most recent common ancestor of master:</p>
+<code><span class="prompt"></span>git diff $(git merge-base HEAD master)</code>
+</li>
+
 </ol>
 
 <h3><a id="macOS" href="#macOS">macOS</a></h3>
@@ -150,13 +155,12 @@ th > h4 {
     background-color: whitesmoke;
     margin: 20px 0;
     border-radius: 10px;
-    padding: 5px;
+    padding: 12px;
     font-family: sans-serif;
     font-size: 14px;
   }
   h4 {
-    font-size: 18px;
-    font-family: sans-serif;
+    font-size: 17px;
     font-weight: normal;
     margin-top: 0;
     margin-bottom: 10px;
