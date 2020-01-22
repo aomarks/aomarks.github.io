@@ -26,9 +26,6 @@ kbd {
 td:first-of-type {
   text-align: right;
 }
-kbd:last-of-type {
-  margin-right: 15px;
-}
 th > h4 {
   text-align: left;
   font-weight: normal;
@@ -40,7 +37,7 @@ th > h4 {
 <body>
 <a href="/">index</a>
 
-<p>Latest update: January 21, 2020</p>
+<p>Latest update: January 22, 2020</p>
 
 <h3><a id="urxvt" href="#urxvt">urxvt</a></h3>
 <ol>
@@ -124,96 +121,188 @@ th > h4 {
 
 <h3>Vim</h3>
 
-<table>
-  <tr><th colspan="2"><h4>Files</h4></th></tr>
-  <tr item><td><kbd>:w</kbd></td><td>Write file</td></tr>
-  <tr item><td><kbd>:wqa</kbd></td><td>Write all files</td></tr>
-  <tr item><td><kbd>:q</kbd></td><td>Quit unless pending changes</td></tr>
-  <tr item><td><kbd>:q!</kbd></td><td>Quit and ignore pending changes</td></tr>
+<style>
+  main {
+    column-width: 250px;
+    column-gap: 20px;
+  }
+  main > section {
+    column-fill: all;
+    break-inside: avoid;
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+    display: table;
+    border-spacing: 0 8px;
+    margin: 0;
+  }
+  li {
+    display: table-row;
+  }
+  li > kbd, dfn {
+    display: table-cell;
+  }
+  dfn {
+    padding-left: 10px;
+  }
+  section {
+    background-color: whitesmoke;
+    margin: 20px 0;
+    border-radius: 10px;
+    padding: 5px;
+    font-family: sans-serif;
+    font-size: 14px;
+  }
+  h4 {
+    font-size: 18px;
+    font-family: sans-serif;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #616161;
+  }
+  dfn {
+    font-style: normal;
+  }
+</style>
 
-  <tr><th colspan="2"><h4>Cursor navigation</h4></th></tr>
-  <tr item><td><kbd>h</kbd></td><td>Left</td></tr>
-  <tr item><td><kbd>j</kbd></td><td>Down</td></tr>
-  <tr item><td><kbd>k</kbd></td><td>Up</td></tr>
-  <tr item><td><kbd>l</kbd></td><td>Right</td></tr>
+<main>
 
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>w</kbd></td><td>Start of next word</td></tr>
-  <tr item><td><kbd>W</kbd></td><td>Start of next word (with punctuation)</td></tr>
-  <tr item><td><kbd>b</kbd></td><td>Start of last word</td></tr>
-  <tr item><td><kbd>B</kbd></td><td>Start of last word (with punctuation)</td></tr>
-  <tr item><td><kbd>e</kbd></td><td>End of next word</td></tr>
-  <tr item><td><kbd>E</kbd></td><td>End of next word (with punctuation)</td></tr>
+<section>
+<h4>Files</h4>
+<ul>
+<li item><kbd>:w</kbd>   <dfn>Write file</dfn></li>
+<li item><kbd>:wqa</kbd> <dfn>Write all files</dfn></li>
+<li item><kbd>:q</kbd>   <dfn>Quit unless pending changes</dfn></li>
+<li item><kbd>:q!</kbd>  <dfn>Quit and ignore pending changes</dfn></li>
+</ul>
+</section>
 
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>0</kbd></td><td>Line start</td></tr>
-  <tr item><td><kbd>$</kbd></td><td>Line end</td></tr>
-  <tr item><td><kbd>^</kbd> or <kbd>_</kbd></td><td>First non-blank character of line</td></tr>
-  <tr item><td><kbd>g_</kbd></td><td>Last non-blank character of line</td></tr>
+<section>
+<h4>Basic navigation</h4>
+<ul>
+<li item><kbd>h</kbd> <dfn>Left</dfn></li>
+<li item><kbd>j</kbd> <dfn>Down</dfn></li>
+<li item><kbd>k</kbd> <dfn>Up</dfn></li>
+<li item><kbd>l</kbd> <dfn>Right</dfn></li>
+</ul>
+</section>
 
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>H</kbd></td><td>Screen top</td></tr>
-  <tr item><td><kbd>M</kbd></td><td>Screen middle</td></tr>
-  <tr item><td><kbd>L</kbd></td><td>Screen bottom</td></tr>
+<section>
+<h4>Words</h4>
+<ul>
+<li item><kbd>w</kbd> <dfn>Start of next word</dfn></li>
+<li item><kbd>W</kbd> <dfn>Start of next word (with punctuation)</dfn></li>
+<li item><kbd>b</kbd> <dfn>Start of last word</dfn></li>
+<li item><kbd>B</kbd> <dfn>Start of last word (with punctuation)</dfn></li>
+<li item><kbd>e</kbd> <dfn>End of next word</dfn></li>
+<li item><kbd>E</kbd> <dfn>End of next word (with punctuation)</dfn></li>
+</ul>
+</section>
 
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>%</kbd></td><td>Jump to matching "()", "{}", or "[]" pair</td></tr>
-  <tr item><td><kbd>}</kbd></td><td>Next Paragraph/block</td></tr>
-  <tr item><td><kbd>{</kbd></td><td>Previous paragraph/block</td></tr>
+<section>
+<h4>Scrolling</h4>
+<ul>
+<li item><kbd><kbd>Ctrl</kbd> + <kbd>e</kbd></kbd> <dfn>Scroll one line down</dfn></li>
+<li item><kbd><kbd>Ctrl</kbd> + <kbd>y</kbd></kbd> <dfn>Scroll one line up</dfn></li>
+<li item><kbd><kbd>Ctrl</kbd> + <kbd>d</kbd></kbd> <dfn>Scroll half screen down</dfn></li>
+<li item><kbd><kbd>Ctrl</kbd> + <kbd>u</kbd></kbd> <dfn>Scroll half screen up</dfn></li>
+<li item><kbd><kbd>Ctrl</kbd> + <kbd>f</kbd></kbd> <dfn>Scroll full screen down</dfn></li>
+<li item><kbd><kbd>Ctrl</kbd> + <kbd>b</kbd></kbd> <dfn>Scroll full screen up</dfn></li>
+<li item><kbd>zz</kbd>                  <dfn>Scroll so that current line is centered</dfn></li>
+</ul>
+</section>
 
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>gg</kbd></td><td>Start of file</td></tr>
-  <tr item><td><kbd>G</kbd></td><td>End of file</td></tr>
-  <tr item><td><kbd>:N</kbd></td><td>Line N of file</td></tr>
+<section>
+<h4>Navigate lines</h4>
+<ul>
+<li item><kbd>0</kbd> <dfn>line start</dfn></li>
+<li item><kbd>$</kbd> <dfn>line end</dfn></li>
+<li item><kbd><kbd>^</kbd> or <kbd>_</kbd></kbd> <dfn>first non-blank character of line</dfn></li>
+<li item><kbd>g_</kbd> <dfn>last non-blank character of line</dfn></li>
+</ul>
+</section>
 
-  <tr><th colspan="2"><h4>Scrolling</h4></th></tr>
-  <tr item><td><kbd>Ctrl</kbd> + <kbd>e</kbd></td><td>Scroll one line down</td></tr>
-  <tr item><td><kbd>Ctrl</kbd> + <kbd>y</kbd></td><td>Scroll one line up</td></tr>
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>Ctrl</kbd> + <kbd>d</kbd></td><td>Scroll half screen down</td></tr>
-  <tr item><td><kbd>Ctrl</kbd> + <kbd>u</kbd></td><td>Scroll half screen up</td></tr>
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>Ctrl</kbd> + <kbd>f</kbd></td><td>Scroll full screen down</td></tr>
-  <tr item><td><kbd>Ctrl</kbd> + <kbd>b</kbd></td><td>Scroll full screen up</td></tr>
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>zz</kbd></td><td>Scroll so that current line is centered</td></tr>
+<section>
+<h4>Navigate screen</h4>
+<ul>
+<li item><kbd>h</kbd> <dfn>screen top</dfn></li>
+<li item><kbd>m</kbd> <dfn>screen middle</dfn></li>
+<li item><kbd>l</kbd> <dfn>screen bottom</dfn></li>
+</ul>
+</section>
 
-  <tr><th colspan="2"><h4>Cut/Copy/Paste</h4></th></tr>
-  <tr item><td><kbd>y</kbd></td><td>Copy selection</td></tr>
-  <tr item><td><kbd>yy</kbd> or <kbd>Y</kbd></td><td>Copy current line</td></tr>
-  <tr item><td><kbd>y$</kbd></td><td>Copy to end of line without newline</td></tr>
+<section>
+<h4>Navigate structurally</h4>
+<ul>
+<li item><kbd>%</kbd> <dfn>jump to matching "()", "{}", or "[]" pair</dfn></li>
+<li item><kbd>}</kbd> <dfn>next paragraph/block</dfn></li>
+<li item><kbd>{</kbd> <dfn>previous paragraph/block</dfn></li>
+</ul>
+</section>
 
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>d</kbd></td><td>Cut selection</td></tr>
-  <tr item><td><kbd>dd</kbd></td><td>Cut line</td></tr>
-  <tr item><td><kbd>D</kbd></td><td>Cut to end of line</td></tr>
+<section>
+<h4>Navigate file</h4>
+<ul>
+<li item><kbd>gg</kbd> <dfn>start of file</dfn></li>
+<li item><kbd>g</kbd>  <dfn>end of file</dfn></li>
+<li item><kbd>:n</kbd> <dfn>line n of file</dfn></li>
+</ul>
+</section>
 
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>p</kbd></td><td>Paste clipboard after cursor</td></tr>
-  <tr item><td><kbd>P</kbd></td><td>Paste clipboard before cursor</td></tr>
+<section>
+<h4>Copy/Paste</h4>
+<ul>
+<li item><kbd>y</kbd>  <dfn>copy selection</dfn></li>
+<li item><kbd><kbd>yy</kbd> or <kbd>y</kbd></kbd> <dfn>copy current line</dfn></li>
+<li item><kbd>y$</kbd> <dfn>copy to end of line without newline</dfn></li>
+<li item><kbd>d</kbd>  <dfn>cut selection</dfn></li>
+<li item><kbd>dd</kbd> <dfn>cut line</dfn></li>
+<li item><kbd>d</kbd>  <dfn>cut to end of line</dfn></li>
+<li item><kbd>p</kbd>  <dfn>paste clipboard after cursor</dfn></li>
+<li item><kbd>p</kbd>  <dfn>paste clipboard before cursor</dfn></li>
+</ul>
+</section>
 
-  <tr><th colspan="2"><h4>Editing lines</h4></th></tr>
-  <tr item><td><kbd>J</kbd></td><td>Join next line to current, with space</td></tr>
-  <tr item><td><kbd>gJ</kbd></td><td>Join next line to current, without space</td></tr>
-  <tr item><td colspan="2"><br></td></tr>
-  <tr item><td><kbd>cc</kbd></td><td>Replace line</td></tr>
-  <tr item><td><kbd>C</kbd></td><td>Replace to end of line</td></tr>
+<section>
+<h4>Editing lines</h4>
+<ul>
+<li item><kbd>j</kbd> <dfn>join next line to current, with space</dfn></li>
+<li item><kbd>gj</kbd> <dfn>join next line to current, without space</dfn></li>
+<li item><kbd>cc</kbd> <dfn>replace line</dfn></li>
+<li item><kbd>c</kbd> <dfn>replace to end of line</dfn></li>
+</ul>
+</section>
 
-  <tr><th colspan="2"><h4>Editing characters</h4></th></tr>
-  <tr item><td><kbd>~</kbd></td><td>Toggle case</td></tr>
-  <tr item><td><kbd>x</kbd></td><td>Cut character</td></tr>
-  <tr item><td><kbd>xp</kbd></td><td>Transpose</td></tr>
+<section>
+<h4>Editing characters</h4>
+<ul>
+<li item><kbd>~</kbd> <dfn>toggle case</dfn></li>
+<li item><kbd>x</kbd> <dfn>cut character</dfn></li>
+<li item><kbd>xp</kbd> <dfn>transpose</dfn></li>
+</ul>
+</section>
 
-  <tr><th colspan="2"><h4>Undo/Redo</h4></th></tr>
-  <tr item><td><kbd>u</kbd></td><td>Undo</td></tr>
-  <tr item><td><kbd>Ctrl</kbd> + <kbd>r</kbd></td><td>Redo</td></tr>
+<section>
+<h4>Undo/Redo</h4>
+<ul>
+<li item><kbd>u</kbd> <dfn>undo</dfn></li>
+<li item><kbd>clil</kbd> + <kbd>r</kbd> <dfn>redo</dfn></li>
+</ul>
+</section>
 
-  <tr><th colspan="2"><h4>Search/Replace</h4></th></tr>
-  <tr item><td><kbd>/pattern</kbd></td><td>Search for pattern</td></tr>
-  <tr item><td><kbd>?pattern</kbd></td><td>Search for pattern backwards</td></tr>
-  <tr item><td><kbd>n</kbd></td><td>Next match</td></tr>
-  <tr item><td><kbd>N</kbd></td><td>Previous match</td></tr>
-</table>
+<section>
+<h4>Search/Replace</h4>
+<ul>
+<li item><kbd>/pattern</kbd> <dfn>search for pattern</dfn></li>
+<li item><kbd>?pattern</kbd> <dfn>search for pattern backwards</dfn></li>
+<li item><kbd>n</kbd> <dfn>next match</dfn></li>
+<li item><kbd>n</kbd> <dfn>previous match</dfn></li>
+</ul>
+</section>
+
+</main>
 
 <input id="filter" placeholder="filter"></input>
 
