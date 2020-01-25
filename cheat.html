@@ -31,7 +31,35 @@ th > h3 {
   font-weight: normal;
   font-size: 18px;
 }
-kbd {
+article {
+  column-width: 300px;
+}
+section {
+  break-inside: avoid;
+}
+section:last-child() {
+  border-bottom: none;
+}
+ul {
+  padding-left: 0;
+  display: table;
+  border-spacing: 0 8px;
+}
+li {
+  display: table-row;
+}
+li > * {
+  display: table-cell;
+}
+li > :first-child {
+  text-align: right;
+}
+section {
+  margin: 20px;
+}
+dfn {
+  font-style: normal;
+  padding-left: 10px;
 }
 </style>
 </head>
@@ -127,39 +155,6 @@ kbd {
 </table>
 
 <h2>Vim</h2>
-
-<style>
-  article {
-    column-width: 300px;
-  }
-  section {
-    break-inside: avoid;
-  }
-  section:last-child() {
-    border-bottom: none;
-  }
-  ul {
-    padding-left: 0;
-    display: table;
-    border-spacing: 0 8px;
-  }
-  li {
-    display: table-row;
-  }
-  li > * {
-    display: table-cell;
-  }
-  li > :first-child {
-    text-align: right;
-  }
-  section {
-    margin: 20px;
-  }
-  dfn {
-    font-style: normal;
-    padding-left: 10px;
-  }
-</style>
 
 <article>
 
@@ -295,6 +290,111 @@ kbd {
 <li item><span><kbd>N</kbd></span>        <dfn>Previous match</dfn></li>
 <li item><span><kbd>ggn</kbd></span>      <dfn>First match</dfn></li>
 <li item><span><kbd>GN</kbd></span>       <dfn>Last match</dfn></li>
+</ul>
+</section>
+
+</article>
+
+<h2>i3</h2>
+
+<article>
+
+<section>
+<h3>Focus window</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>h</kbd></span> <dfn>Focus left</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>j</kbd></span> <dfn>Focus down</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>k</kbd></span> <dfn>Focus up</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>l</kbd></span> <dfn>Focus right</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Move window</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>h</kbd></span> <dfn>Move left</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>j</kbd></span> <dfn>Move down</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>k</kbd></span> <dfn>Move up</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>l</kbd></span> <dfn>Move right</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Layout</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>e</kbd></span> <dfn>Tiled layout (default)</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>s</kbd></span> <dfn>Stacked layout</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>w</kbd></span> <dfn>Tabbed layout</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Resizing</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>Right Click</kbd> + <kbd>Drag</kbd></span> <dfn>Resize</dfn></li>
+
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>k</kbd></span> <dfn>Move top edge up</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>j</kbd></span> <dfn>Move top edge down</dfn></li>
+
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>l</kbd></span> <dfn>Move right edge right</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>h</kbd></span> <dfn>Move right edge left</dfn></li>
+
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>k</kbd></span> <dfn>Move bottom edge up</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>j</kbd></span> <dfn>Move bottom edge down</dfn></li>
+
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>h</kbd></span> <dfn>Move left edge right</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>l</kbd></span> <dfn>Move left edge left</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Workspaces</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>0-9</kbd></span> <dfn>Switch to workspace</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>0-9</kbd></span> <dfn>Move window to workspace</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Floating</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>Space</kbd></span> <dfn>Toggle window floating</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Space</kbd></span> <dfn>Toggle between floating/tiled layers</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Drag</kbd></span> <dfn>Move floating window</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Fullscreen</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>f</kbd></span> <dfn>Toggle fullscreen</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Splitting</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>v</kbd></span> <dfn>Split vertically</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>h</kbd></span> <dfn>Split horizontally</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Launching</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>Enter</kbd></span> <dfn>Open terminal</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>d</kbd></span> <dfn>Open dmenu launcher</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>c</kbd></span> <dfn>Open Chrome</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>q</kbd></span> <dfn>Kill window</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>i3 process</h3>
+<ul>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>c</kbd></span> <dfn>Reload config file</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>r</kbd></span> <dfn>Restart i3</dfn></li>
+<li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>e</kbd></span> <dfn>Exit i3</dfn></li>
 </ul>
 </section>
 
