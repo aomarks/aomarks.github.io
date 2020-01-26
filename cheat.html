@@ -69,93 +69,7 @@ dfn {
 
 <p>Latest update: January 25, 2020</p>
 
-<h2><a id="urxvt" href="#urxvt">urxvt</a></h2>
-<ol>
-
-<li item>
-<p>Copy to CLIPBOARD selection:</p>
-<code>ALT+SHIFT+C</code>
-</li>
-
-<li item>
-<p>Paste from CLIPBOARD selection:</p>
-<code>ALT+SHIFT+V</code>
-</li>
-
-<li item>
-<p>Rectangular selection:</p>
-  <code>ALT+SELECT</code>
-</li>
-
-<li item>
-<p>Search scrollback:</p>
-<code>ALT+S</code>
-</li>
-
-</ol>
-
-<h2><a id="debian" href="#debian">Debian</a></h2>
-<ol>
-
-<li item>
-<p>List manually installed Debian packages:</p>
-<code><span class="prompt"></span>sudo grep -oP "Unpacking \K[^: ]+" /var/log/installer/syslog | sort -u | comm -13 /dev/stdin &lt;(apt-mark showmanual | sort)</code>
-</li>
-
-</ol>
-
-<h2><a id="git" href="#git">Git</a></h2>
-<ol>
-
-<li item>
-<p>Reset the date of the last commit:</p>
-<code><span class="prompt"></span>git commit --amend --date "$(date -R)"</code>
-</li>
-
-<li item>
-<p>Diff between the current branch and the most recent common ancestor of master:</p>
-<code><span class="prompt"></span>git diff $(git merge-base HEAD master)</code>
-</li>
-
-</ol>
-
-<h2><a id="macOS" href="#macOS">macOS</a></h2>
-
-<h3>Keyboard symbols</h3>
-<table>
-  <tr item><td>⌘</td> <td>Command</td></tr>
-  <tr item><td>⌥</td> <td>Option</td></tr>
-  <tr item><td>⌃</td> <td>Control</td></tr>
-  <tr item><td>⇧</td> <td>Shift</td></tr>
-  <tr item><td>⇪</td> <td>Caps Lock</td></tr>
-</table>
-
-<h2><a id="vscode" href="#vscode">VSCode</a></h2>
-
-<h3>Keyboard shortcuts</h3>
-
-<table>
-  <tr item>
-    <td>Ctrl + Shift + P</td>
-    <td>Show Command Palette</td>
-  </tr>
-  <tr item>
-    <td>Shift + Alt + →</td>
-    <td>Expand selection</td>
-  </tr>
-  <tr item>
-    <td>Shift + Alt + ←</td>
-    <td>Shrink selection</td>
-  </tr>
-  <tr item><td>Alt + ↑</td><td>Move line up</td></tr>
-  <tr item><td>Alt + ↓</td><td>Move line down</td></tr>
-  <tr item><td>Ctrl + Alt + Shift + ↓</td><td>Duplicate line down</td></tr>
-  <tr item><td>Ctrl + /</td><td>Toggle line comment</td></tr>
-  <tr item><td>Alt + Z</td><td>Toggle word wrap</td></tr>
-</table>
-
-<h2>Vim</h2>
-
+<h2 id="vim"><a href="#vim">Vim</a></h2>
 <article>
 
 <section>
@@ -295,8 +209,7 @@ dfn {
 
 </article>
 
-<h2>i3</h2>
-
+<h2><a id="i3" href="#i3">i3</a></h2>
 <article>
 
 <section>
@@ -397,7 +310,19 @@ dfn {
 <li item><span><kbd>Meta</kbd> + <kbd>Shift</kbd> + <kbd>e</kbd></span> <dfn>Exit i3</dfn></li>
 </ul>
 </section>
+</article>
 
+<h2><a id="urxvt" href="#urxvt">urxvt</a></h2>
+<article>
+
+<section>
+<ul>
+<li item><span><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>c</kbd></span> <dfn>Copy to clipboard</dfn></li>
+<li item><span><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>v</kbd></span> <dfn>Paste from clipboard</dfn></li>
+<li item><span><kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>Drag</kbd></span> <dfn>Rectangular selection</dfn></li>
+<li item><span><kbd>Alt</kbd> + <kbd>s</kbd></span> <dfn>Search scrollback</dfn></li>
+</ul>
+</section>
 </article>
 
 <input id="filter" placeholder="filter"></input>
