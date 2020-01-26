@@ -521,7 +521,11 @@ input.addEventListener('input', () => {
   filter(input.value);
 });
 
-document.addEventListener('keypress', () => {
+document.addEventListener('keydown', (ev) => {
+  if (ev.key === 'Escape') {
+    input.value = '';
+    filter('');
+  }
   input.focus();
 });
 
