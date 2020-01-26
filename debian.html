@@ -49,7 +49,7 @@ pre.codebox, .codebox > pre {
 <a href="/">index</a>
 
 <p>How I configured my Debian linux desktop computer.</p>
-<p>Latest update: January 16, 2020</p>
+<p>Latest update: January 26, 2020</p>
 
 <h2>Contents</h2>
 
@@ -197,7 +197,7 @@ DP-2 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 598mm x 
 <div class="codebox">
 <pre class="filename">~/bin/check-node-version.sh</pre>
 <pre class="filecontents">
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 set -e
 
@@ -223,7 +223,7 @@ fi
 <div class="codebox">
 <pre class="filename">~/bin/check-updates.sh</pre>
 <pre class="filecontents">
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 sudo apt update | tee /dev/stderr | grep -q "All packages are up to date"
 APT_CODE=$?
