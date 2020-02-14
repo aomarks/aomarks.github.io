@@ -64,10 +64,30 @@ dfn {
 <body>
 <a href="/">index</a>
 
-<p>Latest update: January 26, 2020</p>
+<p>Latest update: February 14, 2020</p>
 
 <h2 id="vim"><a href="#vim">Vim</a></h2>
 <article>
+
+<section>
+<h3>Help</h3>
+<ul>
+<li item><span><kbd>:h[elp]</kbd></span> <dfn>Top-level help</dfn></li>
+<li item><span><kbd>:h[elp] {pattern}</kbd></span> <dfn>Help matching a pattern</dfn></li>
+<li item><span><kbd>:helpc[lose]</kbd></span> <dfn>Close one help window</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Tags</h3>
+<ul>
+<li item><span><kbd>:ta[g] {tag}</kbd></span> <dfn>Jump to tag {tag}</dfn></li>
+<li item><span><kbd>Ctrl</kbd> + <kbd>]</kbd></span> <dfn>Jump to tag under cursor</dfn></li>
+<li item><span><kbd>Ctrl</kbd> + <kbd>T</kbd></span> <dfn>Jump to [count] older tag</dfn></li>
+<li item><span><kbd>:[count]ta[g]</kbd></span> <dfn>Jump to [count] newer tag</dfn></li>
+<li item><span><kbd>:tags</kbd></span> <dfn>Show tag stack</dfn></li>
+</ul>
+</section>
 
 <section>
 <h3>Files</h3>
@@ -121,6 +141,12 @@ dfn {
 <li item><span><kbd>$</kbd></span> <dfn>Line end</dfn></li>
 <li item><span><kbd>^</kbd> or <kbd>_</kbd></span> <dfn>First non-blank character of line</dfn></li>
 <li item><span><kbd>g_</kbd></span> <dfn>Last non-blank character of line</dfn></li>
+<li item><span><kbd>f{char}</kbd></span><dfn>Next occurence of {char}</dfn></li>
+<li item><span><kbd>F{char}</kbd></span><dfn>Prev occurence of {char}</dfn></li>
+<li item><span><kbd>t{char}</kbd></span><dfn>Next occurence of {char} (place cursor before)</dfn></li>
+<li item><span><kbd>T{char}</kbd></span><dfn>Prev occurence of {char} (place cursor before)</dfn></li>
+<li item><span><kbd>;</kbd></span><dfn>Repeat last fFtT</dfn></li>
+<li item><span><kbd>,</kbd></span><dfn>Repeat last fFtT in reverse</dfn></li>
 </ul>
 </section>
 
@@ -146,8 +172,8 @@ dfn {
 <h3>Navigate file</h3>
 <ul>
 <li item><span><kbd>gg</kbd></span> <dfn>Start of file</dfn></li>
-<li item><span><kbd>g</kbd></span>  <dfn>End of file</dfn></li>
-<li item><span><kbd>:n</kbd></span> <dfn>Line n of file</dfn></li>
+<li item><span><kbd>G</kbd></span>  <dfn>End of file</dfn></li>
+<li item><span><kbd>:n</kbd> or <kbd>nG</kbd></span> <dfn>Line n of file</dfn></li>
 </ul>
 </section>
 
@@ -172,6 +198,8 @@ dfn {
 <li item><span><kbd>gj</kbd></span> <dfn>Join next line to current, without space</dfn></li>
 <li item><span><kbd>cc</kbd></span> <dfn>Replace line</dfn></li>
 <li item><span><kbd>c</kbd></span> <dfn>Replace to end of line</dfn></li>
+<li item><span><kbd>I</kbd></span> <dfn>Insert text at beginning of line</dfn></li>
+<li item><span><kbd>A</kbd></span> <dfn>Insert text at end of line</dfn></li>
 </ul>
 </section>
 
@@ -201,6 +229,29 @@ dfn {
 <li item><span><kbd>N</kbd></span>        <dfn>Previous match</dfn></li>
 <li item><span><kbd>ggn</kbd></span>      <dfn>First match</dfn></li>
 <li item><span><kbd>GN</kbd></span>       <dfn>Last match</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Selecting (visual mode)</h3>
+<ul>
+<li item><span><kbd>v</kbd></span> <dfn>Select characters</dfn></li>
+<li item><span><kbd>V</kbd></span> <dfn>Select lines</dfn></li>
+<li item><span><kbd>Ctrl</kbd> + <kbd>v</kbd></span> <dfn>Select columns</dfn></li>
+<li item><span><kbd>gv</kbd></span> <dfn>Select previous range</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Macros</h3>
+<ul>
+<li item><span><kbd>q{letter}</kbd></span>           <dfn>Start recording to register {letter}</dfn></li>
+<li item><span><kbd>q</kbd></span>                   <dfn>Stop recording</dfn></li>
+<li item><span><kbd>{number}@{letter}</kbd></span>   <dfn>Play macro {letter}, {number} times</dfn></li>
+<li item><span><kbd>{number}@@</kbd></span>          <dfn>Play previously played macro</dfn></li>
+<li item><span><kbd>:norm[al] @{letter}</kbd></span> <dfn>Play macro {letter} on all lines in selection</dfn></li>
+<li item><span><kbd>:reg[isters]</kbd></span>        <dfn>Show all registers (including macros)</dfn></li>
+<li item><span><kbd>:reg[isters] 1a</kbd></span>     <dfn>Show contents of register 1 and a</dfn></li>
 </ul>
 </section>
 
