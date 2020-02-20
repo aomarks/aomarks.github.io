@@ -49,12 +49,13 @@ pre.codebox, .codebox > pre {
 <a href="/">index</a>
 
 <p>How I configured my Debian linux desktop computer.</p>
-<p>Latest update: January 26, 2020</p>
+<p>Latest update: February 20, 2020</p>
 
 <h2>Contents</h2>
 
 <ol>
   <li><a href="#x">X</a></li>
+  <li><a href="#wifi">Wi-Fi</a></li>
   <li><a href="#i3">i3 window manager</a></li>
   <li><a href="#compton">Compton compositor</a></li>
   <li><a href="#highrefresh">High refresh rate</a></li>
@@ -84,21 +85,85 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib <
 
 <p>I like my CAPSLOCK key to act like ESCAPE:</p>
 <div class="codebox">
-<pre class="prompt">echo "setxkbmap -option caps:escape" >> ~/.xsessionrc</pre>
+<pre class="prompt">echo "setxkbmap -option caps:escape" &gt;&gt; ~/.xsessionrc</pre>
 <pre class="prompt">source ~/.xsessionrc</pre>
 </div>
 
 <p>In xterm, typing ALT inserted a character instead of the META modifier:</p>
 <div class="codebox">
-<pre class="prompt">echo "xterm*metaSendsEscape: true" >> ~/.Xresources</pre>
+<pre class="prompt">echo "xterm*metaSendsEscape: true" &gt;&gt; ~/.Xresources</pre>
 <pre class="prompt">xrdb -l ~/.Xresources</pre>
 </div>
 
 <p>My mouse cursor was too big:</p>
 <div class="codebox">
-<pre class="prompt">echo "Xcursor.size: 16" >> ~/.Xresources</pre>
+<pre class="prompt">echo "Xcursor.size: 16" &gt;&gt; ~/.Xresources</pre>
 <pre class="prompt">xrdb -l ~/.Xresources</pre>
 </div>
+
+<h2><a id="wifi" href="#wifi">Wi-Fi</a></h2>
+
+<p>Find the Wi-Fi adapter chipset:</p>
+
+<div class="codebox">
+<pre class="prompt">lspci | grep -i wifi</pre>
+<pre class="output">
+04:00.0 Network controller: Realtek Semiconductor Co., Ltd. <em>RTL8822BE</em> 802.11a/b/g/n/ac WiFi adapter
+</pre>
+</div>
+
+<p>Install the appropriate firmware package for this chipset (see <a href="https://wiki.debian.org/WiFi">wiki.debian.org/WiFi</a> for a list), in my case <code>firmware-realtek</code>, and reboot.</p>
+
+<p>Find the Wi-Fi network interface name:</p>
+
+<div class="codebox">
+<pre class="prompt">ip link</pre>
+<pre class="output">
+1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+2: enp0s31f6: &gt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc pfifo_fast state DOWN mode DEFAULT group default qlen 1000
+    link/ether b0:6e:bf:5f:cf:e1 brd ff:ff:ff:ff:ff:ff
+3: <em>wlp4s0</em>: &gt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP mode DORMANT group default qlen 1000
+    link/ether f8:28:19:a2:5f:77 brd ff:ff:ff:ff:ff:ff
+</pre>
+</div>
+
+<p><code>iwd</code> (<a href="https://iwd.wiki.kernel.org/">iwd.wiki.kernel.org</a>) is a daemon for managing Wi-Fi connections that aims to be more efficient and easier to use than its precursor <code>wpa_supplicant</code>. Install the <code>iwd</code> package, which creates the <code>iwd</code> <code>systemd</code> service which launches the daemon on boot. Use the <code>iwctl</code> command to interact with the daemon:</p>
+
+<div class="codebox">
+<pre class="prompt">iwctl</pre>
+<pre class="output">
+[iwd]# device list
+                                    Devices
+--------------------------------------------------------------------------------
+  Name                Address             Powered   Adapter   Mode      
+--------------------------------------------------------------------------------
+  <em>wlp4s0</em>              f8:28:19:a2:5f:77   on        phy0      station   
+
+[iwd]# station wlp4s0 scan
+[iwd]# station wlp4s0 get-networks
+                               Available networks
+--------------------------------------------------------------------------------
+    Network name                    Security  Signal
+--------------------------------------------------------------------------------
+    <em>mynetwork</em>                       psk       ****  
+    anothernetwork                  open      ***
+
+[iwd]# station wlp4s0 connect mynetwork
+Type the network passphrase for mynetwork psk.
+Passphrase: **********
+</pre>
+</div>
+
+<p><code>iwd</code> stores network passwords in plain text at <code>/var/lib/iwd/mynetwork.psk</code>, and will automatically connect on next boot.</p>
+
+<p>Since version 0.19, <code>iwd</code> can also perform network configuration like managing DHCP leases, but the version in Debian 10 is 0.14 so this isn't yet available without getting a newer version some other way. For now it's simple enough to get a DHCP lease manually:</p>
+
+<div class="codebox">
+<pre class="prompt">sudo dhclient wlp4s0</pre>
+</div>
+
+<p>I haven't yet figured out the best way to get a DHCP lease automatically on boot.</p>
 
 <h2><a id="i3" href="#i3">i3 window manager</a></h2>
 
@@ -116,7 +181,7 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib <
 
 <p>Then configure i3 to launch it automatically:</p>
 
-<pre class="codebox prompt">echo "exec compton --backend=glx" >> ~/.config/i3/config</pre>
+<pre class="codebox prompt">echo "exec compton --backend=glx" &gt;&gt; ~/.config/i3/config</pre>
 
 <h2><a id="highrefresh" href="#highrefresh">High refresh rate</a></h2>
 
@@ -154,7 +219,7 @@ DP-2 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 598mm x 
     800x600       60.32  
     640x480       59.94  
 </pre>
-<pre class="prompt">echo "xrandr --output DP-2 -r 165 --mode 2560x1440" >> ~/.xprofile</pre>
+<pre class="prompt">echo "xrandr --output DP-2 -r 165 --mode 2560x1440" &gt;&gt; ~/.xprofile</pre>
 </div>
 
 <h2><a id="power" href="#power">Power commands</a></h2>
