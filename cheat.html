@@ -64,7 +64,7 @@ dfn {
 <body>
 <a href="/">index</a>
 
-<p>Latest update: February 18, 2020</p>
+<p>Latest update: February 20, 2020</p>
 
 <h2 id="vim"><a href="#vim">Vim</a></h2>
 <article>
@@ -188,16 +188,18 @@ dfn {
 <li item><span><kbd>D</kbd></span>  <dfn>Cut to end of line</dfn></li>
 <li item><span><kbd>p</kbd></span>  <dfn>Paste clipboard after cursor</dfn></li>
 <li item><span><kbd>P</kbd></span>  <dfn>Paste clipboard before cursor</dfn></li>
+<li item><span><kbd>:pu</kbd></span> <dfn>Paste to new line above</dfn></li>
+<li item><span><kbd>:pu!</kbd></span> <dfn>Paste to new line below</dfn></li>
 </ul>
 </section>
 
 <section>
 <h3>Editing lines</h3>
 <ul>
-<li item><span><kbd>j</kbd></span> <dfn>Join next line to current, with space</dfn></li>
-<li item><span><kbd>gj</kbd></span> <dfn>Join next line to current, without space</dfn></li>
+<li item><span><kbd>J</kbd></span> <dfn>Join next line to current, with space</dfn></li>
+<li item><span><kbd>gJ</kbd></span> <dfn>Join next line to current, without space</dfn></li>
 <li item><span><kbd>cc</kbd></span> <dfn>Replace line</dfn></li>
-<li item><span><kbd>c</kbd></span> <dfn>Replace to end of line</dfn></li>
+<li item><span><kbd>C</kbd></span> <dfn>Replace to end of line</dfn></li>
 <li item><span><kbd>I</kbd></span> <dfn>Insert text at beginning of line</dfn></li>
 <li item><span><kbd>A</kbd></span> <dfn>Insert text at end of line</dfn></li>
 </ul>
@@ -229,6 +231,10 @@ dfn {
 <li item><span><kbd>N</kbd></span>        <dfn>Previous match</dfn></li>
 <li item><span><kbd>ggn</kbd></span>      <dfn>First match</dfn></li>
 <li item><span><kbd>GN</kbd></span>       <dfn>Last match</dfn></li>
+<li item><span><kbd>*</kbd></span>        <dfn>Search for word under cursor</dfn></li>
+<li item><span><kbd>g*</kbd></span>       <dfn>Search for word under cursor (without word boundaries)</dfn></li>
+<li item><span><kbd>#</kbd></span>        <dfn>Reverse version of <kbd>*</kbd></dfn></li>
+<li item><span><kbd>g$</kbd></span>       <dfn>Reverse version of <kbd>g*</kbd></dfn></li>
 </ul>
 </section>
 
@@ -250,7 +256,6 @@ dfn {
 <li item><span><kbd>{number}@{letter}</kbd></span>   <dfn>Play macro {letter}, {number} times</dfn></li>
 <li item><span><kbd>{number}@@</kbd></span>          <dfn>Play previously played macro</dfn></li>
 <li item><span><kbd>:norm[al] @{letter}</kbd></span> <dfn>Play macro {letter} on all lines in selection</dfn></li>
-<li item><span><kbd>:reg[isters]</kbd></span>        <dfn>Show all registers (including macros)</dfn></li>
 <li item><span><kbd>:reg[isters] 1a</kbd></span>     <dfn>Show contents of register 1 and a</dfn></li>
 </ul>
 </section>
@@ -260,6 +265,21 @@ dfn {
 <ul>
 <li item><span><kbd>gd</kbd></span> <dfn>Jump to definition</dfn></li>
 <li item><span><kbd>gh</kbd></span> <dfn>Show mouse-hover tooltip at cursor</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Registers</h3>
+<ul>
+<li item><span><kbd>:reg[isters]</kbd></span> <dfn>Show all registers</dfn></li>
+<li item><span><kbd>"</kbd></span>      <dfn>Unnamed (most recent yank, delete etc.)</dfn></li>
+<li item><span><kbd>+</kbd></span>      <dfn>Clipboard X selection</dfn></li>
+<li item><span><kbd>*</kbd></span>      <dfn>Primary X selection</dfn></li>
+<li item><span><kbd>a-zA-Z</kbd></span> <dfn>Explicitly referenced registers</dfn></li>
+<li item><span><kbd>0</kbd></span>      <dfn>Most recent yank</dfn></li>
+<li item><span><kbd>1-9</kbd></span>    <dfn>Most recent deletes and changes (lower is more recent)</dfn></li>
+<li item><span><kbd>%</kbd></span>      <dfn>Current file name</dfn></li>
+<li item><span><kbd>_</kbd></span>      <dfn>Black hole</dfn></li>
 </ul>
 </section>
 
