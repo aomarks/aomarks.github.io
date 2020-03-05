@@ -127,6 +127,42 @@ matching buffer</dfn></li>
 </section>
 
 <section>
+<h3>Windows</h3>
+<ul>
+<li item><span><kbd>vim -o {files}</kbd></span> <dfn>Open all {files} in their own horizontally split window</dfn></li>
+<li item><span><kbd>vim -O {files}</kbd></span> <dfn>Open all {files} in their own vertically split window</dfn></li>
+<li item><span><kbd>CTRL-W s</kbd></span>       <dfn>Split current window in two horizontally</dfn></li>
+<li item><span><kbd>CTRL-W v</kbd></span>       <dfn>Split current window in two vertically</dfn></li>
+<li item><span><kbd>CTRL-W c</kbd></span>       <dfn>Close current window</dfn></li>
+<li item><span><kbd>CTRL-W o</kbd></span>       <dfn>Close all windows except the current one</dfn></li>
+<li item><span><kbd>CTRL-W n</kbd></span>       <dfn>Create a new horizontally split window with an empty file</dfn></li>
+<li item><span><kbd>:new {file}</kbd></span>    <dfn>Open {file} in a new horizontally split window</dfn></li>
+</ul>
+</section>
+
+<section>
+<h3>Tabs</h3>
+<ul>
+<li item><span><kbd>:h tabpage</kbd></span>     <dfn>Help on tabs</dfn></li>
+<li item><span><kbd>vim -p {files}</kbd></span> <dfn>Open all {files} in their own tab</dfn></li>
+<li item><span><kbd>:tabe</kbd></span>          <dfn>Open a new tab</dfn></li>
+<li item><span><kbd>:tabe {file}</kbd></span>   <dfn>Open {file} in a new tab</dfn></li>
+<li item><span><kbd>gt</kbd></span>             <dfn>Go to next tab</dfn></li>
+<li item><span><kbd>gT</kbd></span>             <dfn>Go to previous tab</dfn></li>
+<li item><span><kbd>{num}gt</kbd></span>        <dfn>Go to tab index {num}</dfn></li>
+<li item><span><kbd>:tabc</kbd></span>          <dfn>Close the current tab</dfn></li>
+<li item><span><kbd>:tabo</kbd></span>          <dfn>Close all tabs except the current one</dfn></li>
+<li item><span><kbd>:tabs</kbd></span>          <dfn>List tabs</dfn></li>
+</section>
+
+<section>
+<h3>Sessions</h3>
+<ul>
+<li item><span><kbd>:mks {file}</kbd></span>   <dfn>Save current state of vim to {file} (or ./Session.vim if omitted)</dfn></li>
+<li item><span><kbd>vim -S {file}</kbd></span> <dfn>Restore saved session from {file} (or ./Session.vim if omitted)</dfn></li>
+</section>
+
+<section>
 <h3>Basic navigation</h3>
 <ul>
 <li item><span><kbd>h</kbd></span> <dfn>Left</dfn></li>
@@ -223,12 +259,13 @@ matching buffer</dfn></li>
 <section>
 <h3>Editing lines</h3>
 <ul>
-<li item><span><kbd>J</kbd></span> <dfn>Join next line to current, with space</dfn></li>
+<li item><span><kbd>J</kbd></span>  <dfn>Join next line to current, with space</dfn></li>
 <li item><span><kbd>gJ</kbd></span> <dfn>Join next line to current, without space</dfn></li>
 <li item><span><kbd>cc</kbd></span> <dfn>Replace line</dfn></li>
-<li item><span><kbd>C</kbd></span> <dfn>Replace to end of line</dfn></li>
-<li item><span><kbd>I</kbd></span> <dfn>Insert text at beginning of line</dfn></li>
-<li item><span><kbd>A</kbd></span> <dfn>Insert text at end of line</dfn></li>
+<li item><span><kbd>C</kbd></span>  <dfn>Replace to end of line</dfn></li>
+<li item><span><kbd>I</kbd></span>  <dfn>Insert text at beginning of line</dfn></li>
+<li item><span><kbd>A</kbd></span>  <dfn>Insert text at end of line</dfn></li>
+<li item><span><kbd>d{linenum}G</kbd></span> <dfn>Delete from the current line to {linenum}</dfn></li>
 </ul>
 </section>
 
