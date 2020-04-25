@@ -691,17 +691,31 @@ const filter = (term) => {
 };
 
 const input = document.querySelector('#filter');
-const url = new URL(document.URL);
-const params = url.searchParams;
-const term = params.get('q');
 
-if (term) {
+function readQueryFromUrl() {
+  const url = new URL(document.location.href);
+  const params = url.searchParams;
+  const term = params.get('q') || '';
   input.value = term;
   filter(term);
 }
 
+window.addEventListener('popstate', readQueryFromUrl);
+
+readQueryFromUrl();
+
+let debounce = null;
+
 input.addEventListener('input', () => {
   filter(input.value);
+  if (debounce !== null) {
+    clearTimeout(debounce);
+  }
+  debounce = setTimeout(() => {
+    const url = new URL(document.location.href);
+    url.search = input.value ? `?q=${input.value}` : '';
+    history.pushState({}, null, url.toString());
+  }, 1000);
 });
 
 document.addEventListener('keydown', (ev) => {
