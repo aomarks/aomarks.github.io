@@ -64,7 +64,7 @@ dfn {
 <body>
 <a href="/">index</a>
 
-<p>Latest update: March 12, 2020</p>
+<p>Latest update: October 12, 2020</p>
 
 <h2 id="vim"><a href="#vim">Vim</a></h2>
 <article>
@@ -358,6 +358,21 @@ matching buffer</dfn></li>
 <li item><span><code>git show branch:file</code></span> <dfn>Show file in other branch without switching</dfn></li>
 <li item><span><code>git commit --amend --date="$(date -R)"</code></span> <dfn>Amend commit with new date</dfn></li>
 <li item><span><code>git ls-files --cached --ignored --exclude-standard</code></span> <dfn>List files that should be ignored, but are checked in</dfn></li>
+</ul>
+</section>
+</article>
+
+<h2><a id="rg" href="#rg">ripgrep</a></h2>
+<article>
+
+<section>
+<h3>Misc</h3>
+<ul>
+<li item><span><code>rg -tts PATTERN</code></span> <dfn>Only search TypeScript files</dfn></li>
+<li item><span><code>rg -Tts PATTERN</code></span> <dfn>Don't search TypeScript files</dfn></li>
+<li item><span><code>rg --no-ignore PATTERN</code></span> <dfn>Don't respect <code>.gitignore</code> etc.</dfn></li>
+<li item><span><code>rg -g '**/*test*' PATTERN</code></span> <dfn>Only search files with <code>test</code> in their name</dfn></li>
+<li item><span><code>rg --files -g '**/*test*'</code></span> <dfn>List all files with <code>test</code> in their names</dfn></li>
 </ul>
 </section>
 </article>
