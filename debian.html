@@ -49,7 +49,7 @@ pre.codebox, .codebox > pre {
 <a href="/">index</a>
 
 <p>How I configured my Debian linux desktop computer.</p>
-<p>Latest update: February 20, 2020</p>
+<p>Latest update: October 15, 2020</p>
 
 <h2>Contents</h2>
 
@@ -59,6 +59,7 @@ pre.codebox, .codebox > pre {
   <li><a href="#i3">i3 window manager</a></li>
   <li><a href="#compton">Compton compositor</a></li>
   <li><a href="#highrefresh">High refresh rate</a></li>
+  <li><a href="#mouse">Mouse</a></li>
   <li><a href="#power">Power commands</a></li>
   <li><a href="#chrome">Chrome</a></li>
   <li><a href="#vscode">VSCode</a></li>
@@ -221,6 +222,78 @@ DP-2 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 598mm x 
 </pre>
 <pre class="prompt">echo "xrandr --output DP-2 -r 165 --mode 2560x1440" &gt;&gt; ~/.xprofile</pre>
 </div>
+
+<h2><a id="mouse" href="#mouse">Mouse</a></h2>
+
+<p>Find the mouse pointer device name and numeric id:</p>
+
+<div class="codebox">
+<pre class="prompt">xinput --list</pre>
+<pre class="output">
+⎡ Virtual core pointer                    	id=2	[master pointer  (3)]
+⎜   ↳ Virtual core XTEST pointer              	id=4	[slave  pointer  (2)]
+⎜   ↳ <em>Logitech G603                           	id=9</em>	[slave  pointer  (2)]
+⎜   ↳ Logitech USB Receiver                   	id=10	[slave  pointer  (2)]
+⎜   ↳ Logitech USB Receiver Consumer Control  	id=12	[slave  pointer  (2)]
+⎣ Virtual core keyboard                   	id=3	[master keyboard (2)]
+    ↳ Virtual core XTEST keyboard             	id=5	[slave  keyboard (3)]
+    ↳ Power Button                            	id=6	[slave  keyboard (3)]
+    ...
+</pre>
+</div>
+
+<p>List the available properties. You can use the device name or numeric id:</p>
+
+<div class="codebox">
+<pre class="prompt">xinput --list-props <em>9</em></pre>
+<pre class="output">
+Device 'Logitech G603':
+	Device Enabled (155):	1
+	Coordinate Transformation Matrix (157):	1.000000, 0.000000, 0.000000, 0.000000, 1.000000, 0.000000, 0.000000, 0.000000, 1.000000
+	libinput Natural Scrolling Enabled (289):	0
+	libinput Natural Scrolling Enabled Default (290):	0
+	libinput Scroll Methods Available (291):	0, 0, 1
+	libinput Scroll Method Enabled (292):	0, 0, 0
+	libinput Scroll Method Enabled Default (293):	0, 0, 0
+	libinput Button Scrolling Button (294):	2
+	libinput Button Scrolling Button Default (295):	2
+	libinput Button Scrolling Button Lock Enabled (296):	0
+	libinput Button Scrolling Button Lock Enabled Default (297):	0
+	libinput Middle Emulation Enabled (298):	0
+	libinput Middle Emulation Enabled Default (299):	0
+	libinput Accel Speed (300):	0.000000
+	libinput Accel Speed Default (301):	0.000000
+	libinput Accel Profiles Available (302):	1, 1
+	<em>libinput Accel Profile Enabled (303):	0, 1</em>
+	libinput Accel Profile Enabled Default (304):	1, 0
+	libinput Left Handed Enabled (305):	0
+	libinput Left Handed Enabled Default (306):	0
+	libinput Send Events Modes Available (274):	1, 0
+	libinput Send Events Mode Enabled (275):	0, 0
+	libinput Send Events Mode Enabled Default (276):	0, 0
+	Device Node (277):	"/dev/input/event4"
+	Device Product ID (278):	1133, 16492
+	libinput Drag Lock Buttons (307):	&lt;no items&gt;
+	libinput Horizontal Scroll Enabled (308):	1
+</pre>
+</div>
+
+<p>The <code>Accel Profile Enabled</code> property controls mouse acceleration.
+The value is two bits, where the left bit enables "adaptive" mode (with
+acceleration), and the right bit enables "flat" mode (no acceleration).</p>
+
+<p>Turn on acceleration:</p>
+<div class="codebox">
+<pre class="prompt">xinput --set-prop 9 303 <em>1 0</em></pre>
+</div>
+
+<p>Turn off acceleration:</p>
+<div class="codebox">
+<pre class="prompt">xinput --set-prop 9 303 <em>0 1</em></pre>
+</div>
+
+<p>To make this setting persistent, add the command to
+<code>~/.xsessionrc</code>.</p>
 
 <h2><a id="power" href="#power">Power commands</a></h2>
 
