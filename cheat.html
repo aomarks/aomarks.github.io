@@ -64,7 +64,7 @@ dfn {
 <body>
 <a href="/">index</a>
 
-<p>Latest update: October 21, 2020</p>
+<p>Latest update: October 22, 2020</p>
 
 <h2 id="vim"><a href="#vim">Vim</a></h2>
 <article>
@@ -360,6 +360,7 @@ matching buffer</dfn></li>
 <li item><span><code>git ls-files --cached --ignored --exclude-standard</code></span> <dfn>List files that should be ignored, but are checked in</dfn></li>
 <li item><span><code>git fetch origin pull/PRNUM/head:BRANCHNAME &amp;&amp; git checkout BRANCHNAME</code></span> <dfn>Fetch a pull request locally (even if forked)</dfn></li>
 <li item><span><code>git show -- . ':!package-lock.json' ':!**/package-lock.json'</code></span> <dfn>Show commit but exclude some file patterns</dfn></li>
+<li item><span><code>git grep "TERM" $(git rev-list --all)</code></span> <dfn>Search for string across all commits</dfn></li>
 </ul>
 </section>
 </article>
