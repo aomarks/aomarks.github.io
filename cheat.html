@@ -64,7 +64,7 @@ dfn {
 <body>
 <a href="/">index</a>
 
-<p>Latest update: October 27, 2020</p>
+<p>Latest update: November 11, 2020</p>
 
 <h2 id="vim"><a href="#vim">Vim</a></h2>
 <article>
@@ -362,6 +362,17 @@ matching buffer</dfn></li>
 <li item><span><code>git show -- . ':!package-lock.json' ':!**/package-lock.json'</code></span> <dfn>Show commit but exclude some file patterns</dfn></li>
 <li item><span><code>git grep "TERM" $(git rev-list --all)</code></span> <dfn>Search for string across all commits</dfn></li>
 <li item><span><code>git checkout COMMIT -- .</code></span> <dfn>Copy state of a commit to the working directory</dfn></li>
+</ul>
+</section>
+</article>
+
+<h2><a id="npm" href="#npm">NPM</a></h2>
+<article>
+
+<section>
+<h3>Misc</h3>
+<ul>
+<li item><span><code>npm pack --dry-run 2&lt;&amp;1 | grep -Eo '[0-9]+(\.[0-9]+)?[kMG]B+\s+.+' | sort -k2</code></span> <dfn>Dry-run pack, sorted by filename</dfn></li>
 </ul>
 </section>
 </article>
