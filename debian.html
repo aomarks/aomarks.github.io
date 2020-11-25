@@ -49,7 +49,7 @@ pre.codebox, .codebox > pre {
 <a href="/">index</a>
 
 <p>How I configured my Debian linux desktop computer.</p>
-<p>Latest update: October 21, 2020</p>
+<p>Latest update: November 25, 2020</p>
 
 <h2>Contents</h2>
 
@@ -279,7 +279,7 @@ Device 'Logitech G603':
 </pre>
 </div>
 
-<p>The <code>Accel Profile Enabled</code> property controls mouse acceleration.
+<p>The <code>Accel Profile Enabled</code> property controls cursor acceleration.
 The value is two bits, where the left bit enables "adaptive" mode (with
 acceleration), and the right bit enables "flat" mode (no acceleration).</p>
 
@@ -293,7 +293,15 @@ acceleration), and the right bit enables "flat" mode (no acceleration).</p>
 <pre class="prompt">xinput --set-prop 9 303 <em>0 1</em></pre>
 </div>
 
-<p>To make this setting persistent, add the command to
+<p>The <code>Accel Speed</code> property controls cursor speed, a number
+between -1 and 1, defaulting to 0.</p>
+
+<p>Lower cursor speed:</p>
+<div class="codebox">
+<pre class="prompt">xinput --set-prop 9 300 <em>-0.7</em></pre>
+</div>
+
+<p>To make this setting persistent, add these commands to
 <code>~/.xsessionrc</code>.</p>
 
 <h2><a id="power" href="#power">Power commands</a></h2>
