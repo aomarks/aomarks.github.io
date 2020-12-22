@@ -49,7 +49,7 @@ pre.codebox, .codebox > pre {
 <a href="/">index</a>
 
 <p>How I configured my Debian linux desktop computer.</p>
-<p>Latest update: November 25, 2020</p>
+<p>Latest update: December 22, 2020</p>
 
 <h2>Contents</h2>
 
@@ -57,7 +57,7 @@ pre.codebox, .codebox > pre {
   <li><a href="#x">X</a></li>
   <li><a href="#wifi">Wi-Fi</a></li>
   <li><a href="#i3">i3 window manager</a></li>
-  <li><a href="#compton">Compton compositor</a></li>
+  <li><a href="#picom">Picom compositor</a></li>
   <li><a href="#highrefresh">High refresh rate</a></li>
   <li><a href="#mouse">Mouse</a></li>
   <li><a href="#power">Power commands</a></li>
@@ -138,9 +138,9 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib <
 [iwd]# device list
                                     Devices
 --------------------------------------------------------------------------------
-  Name                Address             Powered   Adapter   Mode      
+  Name                Address             Powered   Adapter   Mode
 --------------------------------------------------------------------------------
-  <em>wlp4s0</em>              f8:28:19:a2:5f:77   on        phy0      station   
+  <em>wlp4s0</em>              f8:28:19:a2:5f:77   on        phy0      station
 
 [iwd]# station wlp4s0 scan
 [iwd]# station wlp4s0 get-networks
@@ -148,7 +148,7 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib <
 --------------------------------------------------------------------------------
     Network name                    Security  Signal
 --------------------------------------------------------------------------------
-    <em>mynetwork</em>                       psk       ****  
+    <em>mynetwork</em>                       psk       ****
     anothernetwork                  open      ***
 
 [iwd]# station wlp4s0 connect mynetwork
@@ -173,17 +173,17 @@ Passphrase: **********
 
 <p>If i3 is the only window manager you install, Debian will automatically launch it with X, because it will already be configured as the <code>x-window-manager</code> <i>alternative</i> (see the <a href="https://wiki.debian.org/DebianAlternatives">Debian Wiki</a>). Otherwise, you can run <code>sudo update-alternatives --config x-window-manager</code> to pick it manually.</p>
 
-<h2><a id="compton" href="#compton">Compton compositor</a></h2>
+<h2><a id="picom" href="#picom">Picom compositor</a></h2>
 
 <p>Unlike some other window managers (like GNOME and KDE), i3 does not include a compositor (<a href="https://en.wikipedia.org/wiki/Compositing_window_manager">Wikipedia</a>). Among other things, a compositor can prevent tearing when scrolling text or watching videos in programs like Chrome.</p>
 
-<p>Install the <code>compton</code> package (<a href="https://github.com/chjj/compton">github.com/chjj/compton</a>) for a standalone compositor that works well with i3. If you run <code>compton</code> directly it will immediately start compositing, and if you CTRL-C it will stop, so it's easy to experiment with the flags. The only flag I seemed to need was <code>--backend=glx</code>. The <code>--vsync</code> flag didn't seem to make any difference, maybe because Nvidia G-Sync was already providing that functionality.</p>
+<p>Install the <code>picom</code> package (<a href="https://github.com/yshui/picom">https://github.com/yshui/picom</a>) for a standalone compositor that works well with i3. If you run <code>picom</code> directly it will immediately start compositing, and if you CTRL-C it will stop, so it's easy to experiment with the flags. The only flag I seemed to need was <code>--backend=glx</code>. The <code>--vsync</code> flag didn't seem to make any difference, maybe because Nvidia G-Sync was already providing that functionality.</p>
 
-<pre class="codebox prompt">compton --backend=glx</pre>
+<pre class="codebox prompt">picom --backend=glx</pre>
 
 <p>Then configure i3 to launch it automatically:</p>
 
-<pre class="codebox prompt">echo "exec compton --backend=glx" &gt;&gt; ~/.config/i3/config</pre>
+<pre class="codebox prompt">echo "exec picom --backend=glx" &gt;&gt; ~/.config/i3/config</pre>
 
 <h2><a id="highrefresh" href="#highrefresh">High refresh rate</a></h2>
 
@@ -198,10 +198,10 @@ Screen 0: minimum 8 x 8, current 2560 x 1440, maximum 32767 x 3276
 DP-1 disconnected (normal left inverted right x axis y axis)
 HDMI-0 disconnected (normal left inverted right x axis y axis)
 DP-2 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 598mm x 336mm
-   2560x1440     <em>59.95*+</em> 165.00  144.00   120.00    99.95    84.98    23.97  
-   1024x768      60.00  
-   800x600       60.32  
-   640x480       59.94  
+   2560x1440     <em>59.95*+</em> 165.00  144.00   120.00    99.95    84.98    23.97
+   1024x768      60.00
+   800x600       60.32
+   640x480       59.94
 DP-3 disconnected (normal left inverted right x axis y axis)
 DP-4 disconnected (normal left inverted right x axis y axis)
 DP-5 disconnected (normal left inverted right x axis y axis)
@@ -216,10 +216,10 @@ USB-C-0 disconnected (normal left inverted right x axis y axis)
 <pre class="prompt">xrandr</pre>
 <pre class="output">
 DP-2 connected 2560x1440+0+0 (normal left inverted right x axis y axis) 598mm x 336mm
-    2560x1440     59.95 + <em>165.00*</em>  144.00   120.00    99.95    84.98    23.97  
-    1024x768      60.00  
-    800x600       60.32  
-    640x480       59.94  
+    2560x1440     59.95 + <em>165.00*</em>  144.00   120.00    99.95    84.98    23.97
+    1024x768      60.00
+    800x600       60.32
+    640x480       59.94
 </pre>
 <pre class="prompt">echo "xrandr --output DP-2 -r 165 --mode 2560x1440" &gt;&gt; ~/.xprofile</pre>
 </div>
