@@ -49,7 +49,7 @@ pre.codebox, .codebox > pre {
 <a href="/">index</a>
 
 <p>How I configured my Debian linux desktop computer.</p>
-<p>Latest update: December 22, 2020</p>
+<p>Latest update: February 14, 2021</p>
 
 <h2>Contents</h2>
 
@@ -101,6 +101,25 @@ deb-src http://security.debian.org/debian-security buster/updates main contrib <
 <div class="codebox">
 <pre class="prompt">echo "Xcursor.size: 16" &gt;&gt; ~/.Xresources</pre>
 <pre class="prompt">xrdb -l ~/.Xresources</pre>
+</div>
+
+<p>For high DPI with 1.5 scaling:</p>
+
+<div class="codebox">
+  <pre class="filename">~/.Xresources</pre>
+  <pre class="filecontents">
+Xft.dpi: 144
+Xcursor.size: 32
+URxvt.font: xft:Ubuntu Mono:pixelsize=24,style=regular</pre>
+</div>
+
+<br>
+
+<div class="codebox">
+  <pre class="filename">~/.profile</pre>
+  <pre class="filecontents">
+export GDK_SCALE=1.5
+export QT_SCALE_FACTOR=1.5</pre>
 </div>
 
 <h2><a id="wifi" href="#wifi">Wi-Fi</a></h2>
