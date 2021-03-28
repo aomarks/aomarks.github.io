@@ -49,13 +49,14 @@ pre.codebox, .codebox > pre {
 <a href="/">index</a>
 
 <p>How I configured my Debian linux desktop computer.</p>
-<p>Latest update: February 14, 2021</p>
+<p>Latest update: March 28, 2021</p>
 
 <h2>Contents</h2>
 
 <ol>
   <li><a href="#x">X</a></li>
   <li><a href="#wifi">Wi-Fi</a></li>
+  <li><a href="#bluetooth">Bluetooth</a></li>
   <li><a href="#i3">i3 window manager</a></li>
   <li><a href="#picom">Picom compositor</a></li>
   <li><a href="#highrefresh">High refresh rate</a></li>
@@ -185,6 +186,62 @@ Passphrase: **********
 </div>
 
 <p>I haven't yet figured out the best way to get a DHCP lease automatically on boot.</p>
+
+<h2><a id="bluetooth" href="#bluetooth">Bluetooth</a></h2>
+
+<p>Install the firmware for the Realtek Bluetooth controller on my motherboard:</p>
+
+<div class="codebox">
+  <pre class="prompt">sudo apt install firmware-realtek</pre>
+  <pre class="prompt">reboot</pre>
+</div>
+
+<p>Install the bluetooth package:</p>
+
+<pre class="codebox prompt">sudo apt install bluetooth</pre>
+
+<p>Disable the "SIM Access Profile" plugin, because it doesn't work:</p>
+
+<div class="codebox">
+<pre class="prompt">sudo vim /etc/systemd/system/bluetooth.target.wants/bluetooth.service</pre>
+<pre class="filecontents">
+ExecStart=/usr/libexec/bluetooth/bluetoothd<em> --noplugin=sap</em>
+</pre>
+<pre class="prompt">sudo systemctl daemon-reload</pre>
+<pre class="prompt">sudo service bluetooth reload</pre>
+</div>
+
+<p>Use <code>bluetoothctrl</code> to scan for devices:</p>
+
+<div class="codebox">
+<pre class="prompt">bluetoothctl</pre>
+<pre class="output">
+power on
+scan on
+pair MAC
+connect MAC
+</pre>
+</div>
+
+<p>If there are connection errors for an audio device, A2DP support may need
+to be installed:</p>
+
+<div class="codebox">
+  <pre class="prompt">sudo apt install pulseaudio-module-bluetooth</pre>
+  <pre class="prompt">killall pulseaudio</pre>
+</div>
+
+<p>To list paired devices:</p>
+<div class="codebox">
+  <pre class="prompt">bluetoothctl devices</pre>
+</div>
+
+<p>To connect/disconnect to a particular device:</p>
+
+<div class="codebox">
+  <pre class="prompt">bluetoothctl connect MAC</pre>
+  <pre class="prompt">bluetoothctl disconnect MAC</pre>
+</div>
 
 <h2><a id="i3" href="#i3">i3 window manager</a></h2>
 
