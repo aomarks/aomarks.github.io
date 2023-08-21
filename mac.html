@@ -36,6 +36,14 @@ pre.codebox, .codebox > pre {
   margin: 0 0 0 20px;
   padding: 5px 10px;
 }
+table {
+  border-collapse: collapse;
+  margin: 0 0 0 20px;
+}
+table, th, td {
+  border: 1px solid silver;
+  padding: 5px;
+}
 th {
   text-align: left;
 }
@@ -70,7 +78,7 @@ th {
 
 <h3>Install Brew</h3>
 
-<p>Most things aren't on the App store, though. Brew is a third-party package manager that lets you
+<p>Most things aren't on the App Store, though. Brew is a third-party package manager that lets you
 install almost everything else. Install it by following the instructions at
 <a href="https://brew.sh/" rel="noreferrer" target="_blank">brew.sh</a>.</p>
 
@@ -104,19 +112,40 @@ has some nice features that the Apple Terminal lacks, like fancy tmux handling.<
 
 <h2><a id="keyboard" href="#keyboard">Keyboard</a></h2>
 
+<h3>Bind Caps Lock to Escape</h3>
+
+<p>Sometimes I use vim, and escape is too far away, plus I never want Caps Lock.</p>
+
+<p class="setting">System Preferences > Keyboard > Keyboard Shorcuts... > Modifier Keys</p>
+
+<br>
+
+<table>
+  <tr><td>Caps Lock (⇪) key</td> <td>⎋ Escape</td></tr>
+</table>
+
 <h3>Remap special keys</h3>
 
-<p>My Keychron K8 keyboard has toggle that switches between Windows and Mac mode. I like to keep it on
-Windows mode so that it works normally on Windows and Linux by default, and then remap the keys in macOS
-so that I never have to flip that switch.</p>
+<p>My Keychron K8 keyboard has toggle that switches between Windows and Mac mode, which controls what the
+two 2 to the left of the spacebar do. I like to keep it on Windows mode so that it works normally on Windows
+and Linux by default, and then swap those keys in the macOS settings so that I never have to flip that switch.</p>
 
-<p class="setting">System Preferences > Keyboard</p>
+<p>You don't want to do this unless you have a similar weird keyboard situation.</p>
+
+<p class="setting">System Preferences > Keyboard > Keyboard Shorcuts... > Modifier Keys</p>
+
+<br>
+
+<table>
+  <tr><td>Option (⌥) key</td>  <td>⌘ Command</td></tr>
+  <tr><td>Command (⌘) key</td> <td>⌥ Option</td></tr>
+</table>
 
 <h3>Make F1, F2, etc. keys work normally</h3>
 
 <p>macOS interprets the F keys on my Keychron K8 as brightness, volume, etc. keys instead of normal F keys.</p>
 
-<p class="setting">System Preferences > Keyboard > Keyboard Shortcuts > Function Keys > Use F1, F2, etc. keys as standard function keys</p>
+<p class="setting">System Preferences > Keyboard > Keyboard Shortcuts... > Function Keys > Use F1, F2, etc. keys as standard function keys</p>
 
 <h3>Faster repeat and delay</h3>
 
