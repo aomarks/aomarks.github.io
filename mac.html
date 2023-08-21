@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>aomarks / mac</title>
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<style>
+body {
+  max-width: 800px;
+}
+code {
+  background-color: whitesmoke;
+  padding: 0 3px;
+}
+pre {
+  overflow-y: auto;
+  line-height: 20px;
+}
+.prompt::before {
+  content: '$ ';
+  color: #555;
+}
+.codebox {
+  border: 1px solid silver;
+  margin: 0 0 0 20px;
+}
+pre.codebox, .codebox > pre {
+  padding: 5px 10px;
+}
+.codebox > pre {
+  margin: 0;
+}
+.setting {
+  font-style: italic;
+  border: 1px solid silver;
+  margin: 0 0 0 20px;
+  padding: 5px 10px;
+}
+th {
+  text-align: left;
+}
+</style>
+</head>
+
+<body>
+
+<a href="/">index</a>
+
+<p>How I configure and use my Mac.</p>
+<p>Latest update: August 20, 2023</p>
+
+<h2>Contents</h2>
+
+<ol>
+  <li><a href="#installing">Installing software</a></li>
+  <li><a href="#terminal">Terminal</a></li>
+  <li><a href="#keyboard">Keyboard</a></li>
+  <li><a href="#mouse">Mouse</a></li>
+  <li><a href="#audio">Audio</a></li>
+  <li><a href="#wm">Window management</a></li>
+  <li><a href="#launching">Launching apps</a></li>
+  <li><a href="#dock">Dock</a></li>
+</ol>
+
+<h2><a id="installing" href="#installing">Installing software</a></h2>
+
+<h3>Use the App Store</h3>
+
+<p>It's trustworthy and updates automatically, so I prefer to use the Apple App Store when possible.</p>
+
+<h3>Install Brew</h3>
+
+<p>Most things aren't on the App store, though. Brew is a third-party package manager that lets you
+install almost everything else. Install it by following the instructions at
+<a href="https://brew.sh/" rel="noreferrer" target="_blank">brew.sh</a>.</p>
+
+<p>Here are some common commands:</p>
+
+<div class="codebox">
+  <pre class="prompt">brew search PATTERN</pre>
+  <pre class="prompt">brew info PACKAGE</pre>
+  <pre class="prompt">brew install [--cask] PACKAGE</pre>
+  <pre class="prompt">brew upgrade [--greedy]</pre>
+</div>
+
+<h2><a id="terminal" href="#terminal">Terminal</a></h2>
+
+<h3>Install iTerm2</h3>
+
+<p><a href="https://iterm2.com/" rel="noreferrer" target="_blank">iTerm2</a>
+has some nice features that the Apple Terminal lacks, like fancy tmux handling.</p>
+
+<div class="codebox">
+  <pre class="prompt">brew install --cask iterm2</pre>
+</div>
+
+<h3>Set unlimited scrollback</h3>
+
+<p class="setting">iTerm 2 > Settings > Profiles > Default > Terminal > Unlimited Scrollback</p>
+
+<h3>Make the Option key act like Alt on Linux</h3>
+
+<p class="setting">iTerm 2 > Settings > Profiles > Default > Keys > Left Option Key: Esc+</p>
+
+<h2><a id="keyboard" href="#keyboard">Keyboard</a></h2>
+
+<h3>Remap special keys</h3>
+
+<p>My Keychron K8 keyboard has toggle that switches between Windows and Mac mode. I like to keep it on
+Windows mode so that it works normally on Windows and Linux by default, and then remap the keys in macOS
+so that I never have to flip that switch.</p>
+
+<p class="setting">System Preferences > Keyboard</p>
+
+<h3>Make F1, F2, etc. keys work normally</h3>
+
+<p>macOS interprets the F keys on my Keychron K8 as brightness, volume, etc. keys instead of normal F keys.</p>
+
+<p class="setting">System Preferences > Keyboard > Keyboard Shortcuts > Function Keys > Use F1, F2, etc. keys as standard function keys</p>
+
+<h3>Faster repeat and delay</h3>
+
+<p class="setting">System Preferences > Keyboard > Key repeat rate > Fast</p>
+<br>
+<p class="setting">System Preferences > Keyboard > Delay until repeat > Short</p>
+
+<h2><a id="mouse" href="#mouse">Mouse</a></h2>
+
+<h3>Install LinearMouse</h3>
+
+<p><a href="https://linearmouse.app/" rel="noreferrer" target="_blank">LinearMouse</a> is a utility that gives
+you more advanced control over your cursor.</p>
+
+<div class="codebox">
+  <pre class="prompt">brew install --cask linearmouse</pre>
+</div>
+
+<h3>Disable mouse acceleration</h3>
+
+<p>I'm really used to Linux and Windows cursor behavior, which doesn't usually have acceleration, so I disable it.</p>
+
+<p class="setting">LinearMouse > Pointer > Acceleration > 0</p>
+
+<p>Note you can instead check "Disable pointer acceleration", but then you can't also control the cursor speed.</p>
+
+<h3>Tweak cursor speed</h3>
+
+<p>I like it a certain speed that I'm used to.</p>
+
+<p class="setting">LinearMouse > Pointer > Speed > 0.3</p>
+
+<h3>Reverse scroll wheel direction for the mouse but not the trackpad</h3>
+
+<p>So-called "Natural" scrolling feels fine on the trackpad, but it feels weird when scrolling the mouse wheel down
+scrolls up. LinearMouse lets you control the mouse and trackpad's scrolling direction independently.</p>
+
+<p class="setting">LinearMouse > Scrolling > Reverse Scrolling</p>
+
+<h2><a id="audio" href="#audio">Audio</a></h2>
+
+<h3>Switch input devices more easily</h3>
+
+<p>The built-in audio menu bar icon lets you quickly switch output sources, but not input sources.</p>
+
+<p>Install <a href="https://apps.apple.com/us/app/signal-shifter/id6446061552?mt=12" rel="noreferrer" target="_blank">Signal Shifter</a>
+through the App Store to get a menu bar icon that lets you switch both.</p>
+
+<p>Launch it on boot:</p>
+
+<p class="setting">Signal Shifter > Open at Login</p>
+
+<h3>Play beeps and boops through the current audio device</h3>
+
+<p>By default system beeps and boops always play through the built-in laptop speakers.</p>
+
+<p class="setting">System Settings > Sound > Play sound effects through: Selected Sound Output Device</p>
+
+<h3>Use a classic Mac alert sound</h3>
+
+<p>I like <a href="https://en.wikipedia.org/wiki/Sosumi" rel="noreferrer" target="_blank">this one</a>. It's nostalgic.</p>
+
+<p class="setting">System Settings > Sound > Alert sound > Sonumi</p>
+
+<h2><a id="wm" href="#wm">Window management</a></h2>
+
+<h3>Built-in shortcuts</h3>
+
+<p>These are the built-in window-related shortcuts I find useful. I learned most of them from Apple's
+<a href="https://support.apple.com/en-us/HT201236" rel="noreferrer" target="_blank">Mac keyboard shortcuts</a> page.</p>
+
+<table>
+  <tr><th>Hide front app</th>             <td><code>Command-H</code></td></tr>
+  <tr><th>Show only front app</th>        <td><code>Option-Command-H</code></td></tr>
+  <tr><th>Show only a particular app</th> <td><code>Option-Command</code> and click on a Dock icon</td></tr>
+  <tr><th>Hide all apps</th>              <td><code>Option-Command</code> and click on the Desktop</td></tr>
+</table>
+
+<h3>Install Moom</h3>
+
+<p>For advanced window management you need a third party app. There are many options.
+<a href="https://manytricks.com/moom/" rel="noreferrer" target="_blank">Moom</a> is a good one. It costs $10. You can
+<a href="https://apps.apple.com/us/app/moom/id419330170?mt=12" rel="noreferrer" target="_blank">install Moom from the App Store</a>.
+A free alternative is <a href="https://rectangleapp.com/" rel="noreferrer" target="_blank">Rectangle</a>,
+but it doesn't support layouts.</p>
+
+<p>Launch it on boot:</p>
+
+<p class="setting">Moom > Preferences > General > Launch automatically on login</p>
+
+<h3>Move windows with the keyboard</h3>
+
+<p>Moom lets you configure keyboard shortcuts for different "Move and Zoom" commands.</p>
+
+<p class="setting">Moom > Custom</p>
+
+<p>These are some bindings I use:</p>
+
+<table>
+  <tr><th>Move to left half of screen</th>  <td><code>Command-Option-Control-Left Arrow</code></td></tr>
+  <tr><th>Move to right half of screen</th> <td><code>Command-Option-Control-Right Arrow</code></td></tr>
+  <tr><th>Maximize to entire screen</th>    <td><code>Command-Option-Control-F</code></td></tr>
+  <tr><th>Move to left monitor</th>         <td><code>Command-Option-Control-,</code></td></tr>
+  <tr><th>Move to right monitor</th>        <td><code>Command-Option-Control-.</code></td></tr>
+</table>
+
+<h3>Saved layouts</h3>
+
+<p>Moom lets you arrange some windows, save it as a layout, and then recall the layout with
+a keyboard shortcut.</p>
+
+<p class="setting">Moom menu icon > Save Window Layout Snapshot...</p>
+
+<p>These are some layouts I use:</p>
+
+<table>
+  <tr><th>Coding (IDE, terminal, browser)</th>           <td><code>Command-Option-Control-C</code></td></tr>
+  <tr><th>Discord (Discord, browser)</th>                <td><code>Command-Option-Control-B</code></td></tr>
+  <tr><th>Browsing (2 side-by-side browser windows)</th> <td><code>Command-Option-Control-D</code></td></tr>
+</table>
+
+<p>Note that recalling a Moom layout doesn't open an app if it's not already running, unfortunately.</p>
+
+<h2><a id="launching" href="#launching">Launching apps</a></h2>
+
+<p>Spotlight (<code>Command-Space</code>) is a quick way to launch apps using the keyboard, but I prefer it doesn't also show
+my files and other things, because that's not useful for my usual workflow and makes the results
+distracting. So, I restrict its results like this:</p>
+
+<p class="setting">System Settings > Siri &amp; Spotlight > Spotlight > Search results</p>
+
+<ul>
+  <li>✓ Applications</li>
+  <li>✓ System Settings</li>
+  <li>Everything else disabled</li>
+</ul>
+
+<h2><a id="dock" href="#dock">Dock</a></h2>
+
+<h3>Auto-hide the dock</h3>
+
+<p>I try to use the keyboard instead of the dock whenever possible, and prefer to keep more screen real-estate
+free.</p>
+
+<p class="setting">System Settings > Desktop & Dock > Automatically hide and show the Dock</p>
+
+<h3>Remove apps you don't use</h3>
+
+<p>By default the dock is full of apps I don't use, like Photos, Messages, and Contacts. Drag them
+out of the dock and wait a second until it says "Remove" to remove them.</p>
+
+</body>
+</html>
