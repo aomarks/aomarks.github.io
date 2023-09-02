@@ -30,6 +30,13 @@ pre.codebox, .codebox > pre {
 .codebox > pre {
   margin: 0;
 }
+.filename {
+  border-bottom: 1px dashed silver;
+  border-right: 1px dashed silver;
+  display: inline-block;
+  border-radius: 0 0 10px 0;
+  background-color: whitesmoke;
+}
 .setting {
   font-style: italic;
   border: 1px solid silver;
@@ -55,7 +62,7 @@ th {
 <a href="/">index</a>
 
 <p>How I configure and use my Mac.</p>
-<p>Latest update: August 20, 2023</p>
+<p>Latest update: September 2, 2023</p>
 
 <h2>Contents</h2>
 
@@ -69,6 +76,7 @@ th {
   <li><a href="#launching">Launching apps</a></li>
   <li><a href="#dock">Dock</a></li>
   <li><a href="#shortcuts">Various shortcuts</a></li>
+  <li><a href="#node">Node</a></li>
 </ol>
 
 <h2><a id="installing" href="#installing">Installing software</a></h2>
@@ -314,6 +322,45 @@ for a more complete list.</p>
   <tr><th>Empty Trash (Finder)</th>           <td><code>Command-Shift-Backspace</code></td></tr>
   <tr><th>Open preferences for most apps</th> <td><code>Command-,</code></td></tr>
 </table>
+
+<h2><a id="node" href="#node">Node</a></h2>
+
+<h3>nvm (Node Version Manager)</h3>
+
+<p><a href="https://github.com/nvm-sh/nvm" rel="noreferrer" target="_blank">nvm (Node Version Manager)</a> is a nice way to
+install, update, and switch between different versions of <a href="https://nodejs.org/" rel="noreferrer" target="_blank">Node</a>.</p>
+
+<p>However, nvm will make spawning new shells significantly slower by default, because it does some expensive checking to automatically
+determine the right version of Node to use. I like to use a trick to defer this logic until a Node-related command is actually called
+for the first time in a shell session. Credit to
+<a href="https://www.ioannispoulakas.com/2020/02/22/how-to-speed-up-shell-load-while-using-nvm/" rel="noreferrer" target="_blank">Ioannis Poulakas</a>
+for this idea.</p>
+
+<div class="codebox">
+  <pre class="filename">~/.zprofile</pre>
+  <pre class="filecontents">
+lazy_load_node() {
+  unset -f node npm nvm
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+}
+
+node() {
+  lazy_load_node
+  node $@
+}
+
+npm() {
+  lazy_load_node
+  npm $@
+}
+
+nvm() {
+  lazy_load_node
+  nvm $@
+}</pre>
+</div>
 
 </body>
 </html>
