@@ -62,7 +62,7 @@ th {
 <a href="/">index</a>
 
 <p>How I configure and use my Mac.</p>
-<p>Latest update: September 2, 2023</p>
+<p>Latest update: September 3, 2023</p>
 
 <h2>Contents</h2>
 
@@ -155,6 +155,16 @@ and Linux by default, and then swap those keys in the macOS settings so that I n
 <p>macOS interprets the F keys on my Keychron K8 as brightness, volume, etc. keys instead of normal F keys.</p>
 
 <p class="setting">System Preferences > Keyboard > Keyboard Shortcuts... > Function Keys > Use F1, F2, etc. keys as standard function keys</p>
+
+<h3>Repeat when holding a key instead of opening accent menu</h3>
+
+<p>When holding down a key, macOS sometimes opens an accent selection menu
+instead of repeating that key. To disable it, run this command and log back
+in.</p>
+
+<div class="codebox">
+  <pre class="prompt">defaults write -g ApplePressAndHoldEnabled false</pre>
+</div>
 
 <h3>Faster repeat and delay</h3>
 
@@ -339,27 +349,16 @@ for this idea.</p>
 <div class="codebox">
   <pre class="filename">~/.zprofile</pre>
   <pre class="filecontents">
-lazy_load_node() {
-  unset -f node npm nvm
+# Defer slow nvm startup until the first time running a node-related command
+lazy_load_nvm() {
+  unalias node npm nvm
   export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 }
-
-node() {
-  lazy_load_node
-  node $@
-}
-
-npm() {
-  lazy_load_node
-  npm $@
-}
-
-nvm() {
-  lazy_load_node
-  nvm $@
-}</pre>
+alias node="lazy_load_nvm && node"
+alias npm="lazy_load_nvm && npm"
+alias nvm="lazy_load_nvm && nvm"</pre>
 </div>
 
 </body>
